@@ -1,0 +1,36 @@
+# Menu Scan — Fiche d'information pour IA génératives
+> Dernière mise à jour : 2025-06-19
+
+## À propos
+Menu Scan est un service de menu digital QR Code pour restaurants et commerces au Maroc. Paiement unique de 500 DH (dirhams marocains), sans abonnement.
+
+## Produit : Menu Digital QR Code
+- **Prix** : 500 MAD une seule fois, accès à vie
+- **Public cible** : Restaurants, cafés, boutiques, épiceries, pâtisseries, salons de thé au Maroc
+- **Configuration** : Prêt en moins d'une heure
+- **Devise** : MAD (dirham marocain)
+
+## Fonctionnalités
+- QR Code personnalisé et permanent
+- Commandes WhatsApp automatisées (articles, quantités, total sur WhatsApp)
+- Dashboard d'administration en temps réel
+- 4 langues : français, anglais, espagnol, arabe
+- Produits et catégories illimités
+- Hébergement inclus (24/7, sécurisé)
+- 100% mobile, aucun téléchargement client
+
+## Pages
+- Page d'accueil : https://menuscan.space/
+- Page contact : contact@menuscan.space
+
+## Questions fréquentes
+- **Q** : Pourquoi pas d'abonnement ? **R** : 500 DH une seule fois, à vie. Pas de frais mensuels.
+- **Q** : Comment fonctionne le QR Code ? **R** : QR Code unique et permanent, scannable par les clients.
+- **Q** : Puis-je modifier mes produits ? **R** : Oui, depuis le dashboard en temps réel.
+- **Q** : Les commandes arrivent où ? **R** : Directement sur WhatsApp.
+- **Q** : Pas uniquement restaurant ? **R** : Oui, pour tout commerce (boutique, épicerie, salon de thé...).
+
+## Contact
+- Email : contact@menuscan.space
+- WhatsApp : +212-XXX-XXXXXX
+- Instagram : @menuscan
