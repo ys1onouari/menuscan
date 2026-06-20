@@ -56,20 +56,21 @@
 </script>
 
 <!-- JSON-LD Structured Data -->
+<!-- TODO: Ajouter public/logo.svg (logo 512×512 px minimum pour l'URL ci-dessous) -->
+<!-- TODO: Ajouter public/og-image.jpg (image 1200×630 px pour Open Graph et Twitter Cards) -->
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
   "@graph": [
     {
-      "@type": "Organization",
+      "@type": "LocalBusiness",
       "@id": "https://menuscan.space/#organization",
       "name": "Menu Scan",
       "url": "https://menuscan.space",
-      "logo": "https://menuscan.space/og-image.jpg",
+      "logo": "https://menuscan.space/logo.svg",
       "description": "Service de menu digital QR Code pour restaurants et commerces au Maroc. Paiement unique, sans abonnement.",
       "contactPoint": {
         "@type": "ContactPoint",
-        "telephone": "+212-XXX-XXXXXX",
         "contactType": "customer service",
         "availableLanguage": ["French", "English", "Spanish", "Arabic"]
       },
@@ -80,7 +81,12 @@
         "@type": "PostalAddress",
         "addressLocality": "Casablanca",
         "addressCountry": "MA"
-      }
+      },
+      "areaServed": {
+        "@type": "Country",
+        "name": "MA"
+      },
+      "priceRange": "500 MAD"
     },
     {
       "@type": "Product",
