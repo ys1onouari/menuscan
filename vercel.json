@@ -1,0 +1,5 @@
+{
+  "buildCommand": "cd menu-scan && npm install && npm run build",
+  "outputDirectory": "menu-scan/dist",
+  "installCommand": "cd menu-scan && npm install"
+}
