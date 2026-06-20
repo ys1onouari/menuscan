@@ -23,6 +23,69 @@
   .phone{transform:rotate(-3deg) translateZ(0)!important}
   .demo-section{margin:48px auto;padding:24px 20px}
   .demo-title{font-size:1.15rem}
+  .sec-label h2{font-size:1.8rem}
+  .nav-cta{padding:8px 16px;font-size:.8rem}
+  .lang-btn{padding:3px 6px;font-size:.7rem}
+}
+
+@media (max-width:480px){
+  h1{font-size:1.8rem}
+  #hero{padding:80px 16px 40px}
+  #details{padding:60px 16px}
+  .hero-inner{gap:40px}
+  .hero-sub{font-size:1rem}
+  .price-tag .amount{font-size:2rem}
+  .price-tag{gap:8px;margin-bottom:28px}
+  .hero-btns{flex-direction:column;gap:12px}
+  .hero-btns .btn-primary,.hero-btns .btn-secondary{width:100%;justify-content:center}
+  .btn-primary,.btn-secondary{padding:14px 20px;font-size:.9rem}
+  .hero-pills{gap:8px}
+  .pill{padding:6px 12px;font-size:.75rem}
+  nav{padding:0 12px;height:56px}
+  .logo{font-size:1rem;gap:8px}
+  .logo-icon{width:30px;height:30px}
+  .logo-icon svg{width:16px;height:16px}
+  .lang-switcher{gap:1px}
+  .lang-btn{padding:3px 5px;font-size:.65rem}
+  .nav-cta{padding:6px 12px;font-size:.72rem}
+  .step{padding:20px;gap:12px;border-radius:16px}
+  .step-num{width:36px;height:36px;font-size:.9rem;border-radius:10px}
+  .step h3{font-size:.9rem}
+  .step p{font-size:.8rem}
+  .feat{padding:16px;border-radius:12px}
+  .feat-icon{width:36px;height:36px;border-radius:10px;margin-bottom:12px}
+  .feat-icon svg{width:16px;height:16px}
+  .feat h3{font-size:.85rem}
+  .feat p{font-size:.75rem}
+  .price-card{padding:24px 16px;border-radius:18px}
+  .big-price{font-size:2.5rem}
+  .price-card h2{font-size:1rem}
+  .price-card .star{font-size:.7rem;padding:4px 12px}
+  .feat-list li{font-size:.82rem;gap:10px}
+  .cta-btn{padding:14px;font-size:.9rem}
+  .faq-item{border-radius:12px}
+  .faq-q{padding:14px 16px;font-size:.85rem;gap:12px}
+  .faq-q svg{width:16px;height:16px}
+  .faq-a{font-size:.82rem}
+  .faq-item.open .faq-a{padding:0 16px 14px}
+  .demo-section{padding:16px;border-radius:14px;margin:32px auto}
+  .demo-title{font-size:1.05rem}
+  .demo-sub{font-size:.82rem}
+  .sec-label h2{font-size:1.5rem}
+  .sec-label p{font-size:.85rem}
+  .sec-label{margin-bottom:32px}
+  .bottom-row{gap:24px}
+  .steps-row{gap:14px;margin-bottom:40px}
+  .feat-grid{gap:12px}
+  .lang-strip{gap:24px}
+  .lang-item .flag{font-size:1.6rem}
+  .lang-item span{font-size:.7rem}
+  .divider{margin:40px 0}
+  footer{padding:28px 16px}
+  .f-inner{font-size:.78rem;gap:12px}
+  .glow-1{width:400px;height:400px;top:-150px;right:-200px}
+  .glow-2{width:300px;height:300px;bottom:-100px;left:-150px}
+  .glow-3{display:none}
 }
 
 [dir="rtl"] .p-item:hover{transform:translateX(-4px)}
