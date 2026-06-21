@@ -6,7 +6,11 @@ export function initLoader() {
 
   function hide() {
     el.classList.add('hidden');
-    el.addEventListener('transitionend', () => el.remove(), { once: true });
+    el.addEventListener('transitionend', () => {
+      el.remove();
+      const firstFocusable = document.querySelector('a, button, [tabindex="0"]');
+      if (firstFocusable) firstFocusable.focus();
+    }, { once: true });
     console.log('[MenuScan] Loader hidden');
   }
 

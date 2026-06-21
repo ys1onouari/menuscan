@@ -2,6 +2,7 @@
   .hero-inner{grid-template-columns:1fr;gap:60px}
   .phone-wrap{display:none}
   .feat-grid{grid-template-columns:repeat(2,1fr)}
+  .use-cases-row,.why-row{grid-template-columns:repeat(2,1fr)}
   .bottom-row{grid-template-columns:1fr}
   .price-card{position:static;max-width:420px;margin:0 auto}
   h1{font-size:3rem}
@@ -10,6 +11,7 @@
 @media (max-width:768px){
   .steps-row{grid-template-columns:1fr}
   .feat-grid{grid-template-columns:1fr}
+  .use-cases-row,.why-row{grid-template-columns:1fr}
   .f-inner{flex-direction:column;text-align:center}
   .f-links{flex-wrap:wrap;justify-content:center}
   h1{font-size:2.5rem}
@@ -77,6 +79,7 @@
   .bottom-row{gap:24px}
   .steps-row{gap:14px;margin-bottom:40px}
   .feat-grid{gap:12px}
+  .use-cases-row,.why-row{gap:14px;margin-bottom:40px}
   .lang-strip{gap:24px}
   .lang-item .flag{font-size:1.6rem}
   .lang-item span{font-size:.7rem}
@@ -100,4 +103,5 @@
   .glow{animation:none}
   #hero::before{animation:none}
   #particles{display:none}
+  .scroll-hint{animation:none}
 }

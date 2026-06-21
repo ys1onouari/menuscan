@@ -15,4 +15,13 @@ export function initPhoneTilt() {
   phoneWrap.addEventListener('mouseleave', () => {
     phoneTilt.style.transform = '';
   });
+
+  document.querySelectorAll('.cat').forEach((cat) => {
+    cat.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter' || e.key === ' ') {
+        e.preventDefault();
+        cat.click();
+      }
+    });
+  });
 }

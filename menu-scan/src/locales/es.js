@@ -61,6 +61,25 @@ export default {
     hosting: { title: 'Alojamiento incluido', desc: 'En línea 24/7, seguro y rápido.' },
     uses: { title: 'Multiusos', desc: 'Restaurante, tienda, supermercado, salón de té…' },
   },
+  useCases: {
+    title: '¿Para qué negocio?',
+    items: [
+      { type: 'Restaurante', desc: 'Reemplazar menús de papel, permitir a los clientes pedir desde la mesa, reducir el tiempo de espera y los errores de pedido.' },
+      { type: 'Café / Snack', desc: 'Mostrar una carta sin contacto, permitir pedidos desde el asiento, actualizar precios y ofertas al instante.' },
+      { type: 'Pastelería', desc: 'Presentar pasteles con descripciones, gestionar pedidos para llevar por WhatsApp, catálogo para pasteles por encargo.' },
+      { type: 'Food truck', desc: 'Código QR en el vehículo, menú visible sin imprimir, cambiar la carta según los desplazamientos.' },
+      { type: 'Hotel / Riad', desc: 'Menú multilingüe para clientes internacionales, servicio de habitaciones por WhatsApp, carta del restaurante del hotel.' },
+      { type: 'Tienda / Supermercado', desc: 'Catálogo de productos con precios, pedidos por WhatsApp para click & collect, actualización estacional.' },
+    ],
+  },
+  whyUs: {
+    title: '¿Por qué elegir Menu Scan?',
+    items: [
+      { label: 'Vs menú de papel', desc: 'Un menú de papel cuesta en cada reimpresión. Menu Scan, 500 MAD una vez, modificable cuando quieras.' },
+      { label: 'Vs suscripciones', desc: 'Sin cuotas mensuales ni compromiso. Pago único, acceso de por vida.' },
+      { label: 'Vs un desarrollador', desc: 'Sin esperas ni presupuestos. Listo en menos de una hora por 500 MAD, sin conocimientos técnicos.' },
+    ],
+  },
   switcher: {
     aria: 'Cambiar idioma',
     fr: 'Français',
@@ -83,15 +102,28 @@ export default {
     ],
     cta: 'Empezar ahora →',
   },
-  faq: [
+  faq: {
+    title: 'Preguntas frecuentes',
+    items: [
     { q: '¿Por qué sin suscripción?', a: '500 MAD una sola vez, tuyo para siempre. Sin cuotas mensuales, sin renovación, sin sorpresas.' },
     { q: '¿Cómo funciona el código QR?', a: 'Cada negocio recibe un código QR único y permanente. Tus clientes lo escanean y acceden directamente al menú — imprímelo en mesas, escaparates o tarjetas de visita.' },
     { q: '¿Puedo modificar mis productos?', a: 'Sí, desde el dashboard en cualquier momento. Cambios instantáneos — sin necesidad de regenerar el código QR. Tus clientes ven los cambios en tiempo real.' },
     { q: '¿Dónde llegan los pedidos?', a: 'Directamente a tu WhatsApp: artículos, cantidades, total. Gestionas todo desde la aplicación que ya usas a diario.' },
     { q: '¿Funciona para un catálogo (no restaurante)?', a: 'Sí. Tienda, supermercado, pastelería, salón de té… organiza por categorías y recibe pedidos en WhatsApp. Perfecto para cualquier negocio.' },
-  ],
+    { q: '¿Cómo se realiza el pago?', a: 'Pago por transferencia bancaria o efectivo. Contáctanos para organizar el pago.' },
+    { q: '¿Cómo recibo asistencia?', a: 'Respondemos tus preguntas por WhatsApp. Hay asistencia disponible para ayudarte a configurar tu menú digital.' },
+    { q: '¿Puedo ver una demostración?', a: 'Contáctanos en WhatsApp para una demostración personalizada de Menu Scan.' },
+    ],
+  },
+  demo: {
+    legend: 'Vídeo de demostración del dashboard de Menu Scan: creación del catálogo, compartir el código QR y recepción de pedidos por WhatsApp.',
+    transcriptToggle: 'Leer la transcripción',
+    transcript: 'El vídeo muestra a un cliente escaneando un código QR con su teléfono. El menú digital Menu Scan se abre instantáneamente en el navegador. El cliente navega entre las categorías, selecciona productos y envía su pedido directamente a través de WhatsApp al restaurante.',
+  },
   footer: {
-    copyright: '© 2025 Menu Scan · Hecho en Marruecos',
+    copyright: '© 2026 Menu Scan · Hecho en Marruecos',
+    contact: 'Contacto',
+    instagram: 'Instagram',
   },
   meta: {
     title: 'Menu Scan — Menú Digital QR Code sin suscripción (500 MAD de por vida) | Marruecos',

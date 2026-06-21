@@ -63,6 +63,8 @@ export async function changeLanguage(lng) {
   i18next.changeLanguage(lng);
   applyLanguage();
   document.dispatchEvent(new CustomEvent('languagechange', { detail: { language: lng } }));
+  const announcer = document.getElementById('lang-announce');
+  if (announcer) announcer.textContent = `Langue chang\u00e9e : ${lng}`;
 }
 
 function applyLanguage() {

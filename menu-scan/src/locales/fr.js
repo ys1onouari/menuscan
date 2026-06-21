@@ -61,6 +61,25 @@ export default {
     hosting: { title: 'Hébergement inclus', desc: 'En ligne 24/7, sécurisé et rapide.' },
     uses: { title: 'Multi-usages', desc: 'Restaurant, boutique, épicerie, salon de thé…' },
   },
+  useCases: {
+    title: 'Pour quel commerce ?',
+    items: [
+      { type: 'Restaurant', desc: 'Remplacer les menus papier, permettre aux clients de commander depuis la table, réduire le temps d\'attente et les erreurs de commande.' },
+      { type: 'Café / Snack', desc: 'Afficher une carte lisible sans contact, permettre aux clients de commander depuis leur place, mise à jour rapide des prix et des offres.' },
+      { type: 'Pâtisserie', desc: 'Présenter les pâtisseries avec descriptions, gérer les commandes à emporter via WhatsApp, catalogue pour les gâteaux sur commande.' },
+      { type: 'Food truck', desc: 'QR Code sur le véhicule, menu consultable sans impression, changement de carte selon les déplacements.' },
+      { type: 'Hôtel / Riad', desc: 'Menu multilingue pour clients internationaux, room service via WhatsApp, carte du restaurant de l\'hôtel.' },
+      { type: 'Boutique / Épicerie', desc: 'Catalogue produits avec prix, commandes WhatsApp pour le click & collect, mise à jour saisonnière.' },
+    ],
+  },
+  whyUs: {
+    title: 'Pourquoi choisir Menu Scan ?',
+    items: [
+      { label: 'Vs le menu papier', desc: 'Un menu papier coûte à chaque réimpression. Menu Scan, 500 DH une fois, modifiable à volonté.' },
+      { label: 'Vs les abonnements', desc: 'Pas de frais mensuels ni d\'engagement. Paiement unique, accès à vie.' },
+      { label: 'Vs un développeur', desc: 'Pas d\'attente, pas de devis. Prêt en moins d\'une heure pour 500 DH, sans compétence technique.' },
+    ],
+  },
   switcher: {
     aria: 'Changer de langue',
     fr: 'Français',
@@ -83,15 +102,28 @@ export default {
     ],
     cta: 'Commencer maintenant →',
   },
-  faq: [
+  faq: {
+    title: 'Questions fr\u00e9quentes',
+    items: [
     { q: 'Pourquoi pas d\'abonnement ?', a: '500 DH une seule fois, à vous pour toujours. Pas de frais mensuels, pas de renouvellement, pas de mauvaise surprise.' },
     { q: 'Comment fonctionne le QR Code ?', a: 'Chaque établissement reçoit un QR Code unique et permanent. Vos clients le scannent et accèdent directement au menu — imprimez-le sur tables, vitrines ou cartes de visite.' },
     { q: 'Puis-je modifier mes produits ?', a: 'Oui, depuis le dashboard à tout moment. Modifications instantanées — pas besoin de re-générer le QR Code. Vos clients voient les changements en temps réel.' },
     { q: 'Les commandes arrivent où ?', a: 'Directement sur votre WhatsApp : articles, quantités, total. Vous gérez tout depuis l\'application que vous utilisez déjà au quotidien.' },
     { q: 'Fonctionne pour un catalogue (pas restaurant) ?', a: 'Oui. Boutique, épicerie, pâtisserie, salon de thé… organisez par catégories et recevez les commandes sur WhatsApp. Parfait pour tout commerce.' },
-  ],
+    { q: 'Comment se fait le paiement ?', a: 'Paiement par virement bancaire ou espèces. Contactez-nous pour organiser le règlement.' },
+    { q: 'Comment être accompagné ?', a: 'Nous répondons à vos questions par WhatsApp. Une assistance est disponible pour vous aider à configurer votre menu digital.' },
+    { q: 'Puis-je voir une démonstration ?', a: 'Contactez-nous sur WhatsApp pour une démonstration personnalisée de Menu Scan.' },
+    ],
+  },
+  demo: {
+    legend: 'Vidéo de démonstration du dashboard Menu Scan : création du catalogue, partage du QR Code et réception des commandes WhatsApp.',
+    transcriptToggle: 'Lire la transcription',
+    transcript: 'La vidéo montre un client scanner un QR Code avec son téléphone. Le menu digital Menu Scan s\'ouvre instantanément dans le navigateur. Le client navigue entre les catégories, sélectionne des produits et envoie sa commande directement via WhatsApp au restaurant.',
+  },
   footer: {
-    copyright: '© 2025 Menu Scan · Made in Morocco',
+    copyright: '© 2026 Menu Scan · Made in Morocco',
+    contact: 'Contact',
+    instagram: 'Instagram',
   },
   meta: {
     title: 'Menu Scan — Menu Digital QR Code sans abonnement (500 DH à vie) | Maroc',

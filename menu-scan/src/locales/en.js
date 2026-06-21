@@ -61,6 +61,25 @@ export default {
     hosting: { title: 'Hosting included', desc: 'Online 24/7, secure and fast.' },
     uses: { title: 'Multi-purpose', desc: 'Restaurant, shop, grocery, tea room…' },
   },
+  useCases: {
+    title: 'Which business?',
+    items: [
+      { type: 'Restaurant', desc: 'Replace paper menus, let customers order from their table, reduce wait time and order errors.' },
+      { type: 'Café / Snack', desc: 'Display a contactless menu, let customers order from their seat, update prices and offers instantly.' },
+      { type: 'Pastry Shop', desc: 'Show pastries with descriptions, manage takeaway orders via WhatsApp, catalog for custom cakes.' },
+      { type: 'Food Truck', desc: 'QR Code on the vehicle, menu viewable without printing, change the menu as you travel.' },
+      { type: 'Hotel / Riad', desc: 'Multilingual menu for international guests, room service via WhatsApp, hotel restaurant menu.' },
+      { type: 'Shop / Grocery', desc: 'Product catalog with prices, WhatsApp orders for click & collect, seasonal updates.' },
+    ],
+  },
+  whyUs: {
+    title: 'Why choose Menu Scan?',
+    items: [
+      { label: 'Vs paper menu', desc: 'Paper menus cost every reprint. Menu Scan, 500 MAD once, editable anytime.' },
+      { label: 'Vs subscriptions', desc: 'No monthly fees or commitment. One-time payment, lifetime access.' },
+      { label: 'Vs hiring a developer', desc: 'No waiting, no quotes. Ready in under an hour for 500 MAD, no technical skills needed.' },
+    ],
+  },
   switcher: {
     aria: 'Change language',
     fr: 'Français',
@@ -83,15 +102,28 @@ export default {
     ],
     cta: 'Start now →',
   },
-  faq: [
+  faq: {
+    title: 'Frequently asked questions',
+    items: [
     { q: 'Why no subscription?', a: '500 MAD once, yours forever. No monthly fees, no renewal, no surprises.' },
     { q: 'How does the QR Code work?', a: 'Each business gets a unique, permanent QR Code. Your customers scan it and access the menu directly — print it on tables, windows or business cards.' },
     { q: 'Can I modify my products?', a: 'Yes, from the dashboard at any time. Instant updates — no need to regenerate the QR Code. Your customers see changes in real time.' },
     { q: 'Where do orders arrive?', a: 'Directly on your WhatsApp: items, quantities, total. You manage everything from the app you already use daily.' },
     { q: 'Does it work for a catalog (not a restaurant)?', a: 'Yes. Shop, grocery, pastry shop, tea room… organize by categories and receive orders on WhatsApp. Perfect for any business.' },
-  ],
+    { q: 'How is payment made?', a: 'Payment by bank transfer or cash. Contact us to arrange payment.' },
+    { q: 'How do I get support?', a: 'We answer your questions on WhatsApp. Assistance is available to help you set up your digital menu.' },
+    { q: 'Can I see a demo?', a: 'Contact us on WhatsApp for a personalized demo of Menu Scan.' },
+    ],
+  },
+  demo: {
+    legend: 'Demo video of the Menu Scan dashboard: catalog creation, QR Code sharing and WhatsApp order reception.',
+    transcriptToggle: 'Read the transcript',
+    transcript: 'The video shows a customer scanning a QR Code with their phone. The Menu Scan digital menu opens instantly in the browser. The customer browses categories, selects products and sends their order directly via WhatsApp to the restaurant.',
+  },
   footer: {
-    copyright: '© 2025 Menu Scan · Made in Morocco',
+    copyright: '© 2026 Menu Scan · Made in Morocco',
+    contact: 'Contact',
+    instagram: 'Instagram',
   },
   meta: {
     title: 'Menu Scan — Digital QR Code Menu with no subscription (500 MAD lifetime) | Morocco',
