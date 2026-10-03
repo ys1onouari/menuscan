@@ -1,36 +1,5 @@
 {
   "version": 1,
-  "generatedAt": "2026-02-02T09:00:00+01:00",
-  "articles": [
-    {
-      "lang": "fr",
-      "slug": "menu-digital-qr-code-restaurant-maroc",
-      "url": "/blog/fr/menu-digital-qr-code-restaurant-maroc.html",
-      "title": "Menu digital QR Code pour restaurant : le guide complet au Maroc",
-      "excerpt": "Prix, hébergement, mise en place et bonnes pratiques pour un menu digital QR Code dans un restaurant au Maroc.",
-      "category": "menu-digital",
-      "date": "2026-02-02",
-      "readingTime": 6,
-      "image": "/blog/images/menu-digital-qr-code.jpg",
-      "imageAlt": "Menu Scan — menu digital QR Code pour restaurant",
-      "imageWidth": 1200,
-      "imageHeight": 630,
-      "translationGroup": "menu-digital-qr-code-restaurant-maroc"
-    },
-    {
-      "lang": "en",
-      "slug": "digital-qr-code-menu-for-restaurants-morocco",
-      "url": "/blog/en/digital-qr-code-menu-for-restaurants-morocco.html",
-      "title": "Digital QR Code menu for restaurants: the complete guide for Morocco",
-      "excerpt": "Pricing, hosting, setup and best practices for a digital QR Code menu in a Moroccan restaurant.",
-      "category": "menu-digital",
-      "date": "2026-02-02",
-      "readingTime": 6,
-      "image": "/blog/images/menu-digital-qr-code.jpg",
-      "imageAlt": "Menu Scan — digital QR Code menu for restaurants",
-      "imageWidth": 1200,
-      "imageHeight": 630,
-      "translationGroup": "menu-digital-qr-code-restaurant-maroc"
-    }
-  ]
+  "generatedAt": "2026-10-03T16:40:12.704Z",
+  "articles": []
 }
