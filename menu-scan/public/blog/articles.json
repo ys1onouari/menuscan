@@ -1,21 +1,5 @@
 {
   "version": 1,
-  "generatedAt": "2026-10-03T20:09:35.252Z",
-  "articles": [
-    {
-      "lang": "en",
-      "slug": "organize-digital-menu-categories",
-      "url": "/blog/en/organize-digital-menu-categories.html",
-      "title": "How to Organize Product Categories in a Digital Menu",
-      "excerpt": "A practical method for grouping and ordering digital menu categories so customers can find products quickly on a smartphone.",
-      "category": "menu-digital",
-      "date": "2026-10-03",
-      "readingTime": 9,
-      "image": "/blog/images/How-to-Compare-One-Time-and-Subscription-Menu-Costs.jpg",
-      "imageAlt": "Digital menu showing clearly organized product categories on a smartphone",
-      "imageWidth": 1200,
-      "imageHeight": 600,
-      "translationGroup": "organize-digital-menu-categories"
-    }
-  ]
+  "generatedAt": "2026-10-03T21:28:16.090Z",
+  "articles": []
 }
