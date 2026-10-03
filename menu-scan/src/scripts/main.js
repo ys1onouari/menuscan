@@ -22,13 +22,12 @@ document.addEventListener('DOMContentLoaded', async () => {
 
   try {
     await initI18n();
-    log('i18n');
   } catch (e) {
     console.error('[MenuScan] i18n init error:', e);
+    translatePage();
   }
 
-  translatePage();
-  log('translate');
+  log('i18n + translate');
   initLanguageSwitcher();
   log('language-switcher');
   initNavbar();

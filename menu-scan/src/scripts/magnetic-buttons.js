@@ -1,4 +1,6 @@
 export function initMagneticButtons() {
+  const reduced = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if (reduced) return;
   document.querySelectorAll('.btn-primary, .nav-cta, .cta-btn').forEach((btn) => {
     btn.addEventListener('mousemove', (e) => {
       const rect = btn.getBoundingClientRect();

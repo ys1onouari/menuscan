@@ -1,6 +1,8 @@
 import { t } from './i18n.js';
 
 let currentFrame = null;
+let pendingStart = null;
+let runId = 0;
 
 export function initScrambleText() {
   const el = document.getElementById('scramble-text');
@@ -8,18 +10,37 @@ export function initScrambleText() {
   start(el);
 
   document.addEventListener('languagechange', () => {
-    if (currentFrame) cancelAnimationFrame(currentFrame);
     start(el);
   });
 }
 
+function stop() {
+  runId += 1;
+  if (currentFrame) {
+    cancelAnimationFrame(currentFrame);
+    currentFrame = null;
+  }
+  if (pendingStart) {
+    clearTimeout(pendingStart);
+    pendingStart = null;
+  }
+}
+
 function start(el) {
+  stop();
+  const run = runId;
   const finalText = t('hero.titleHighlight');
   const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz!@#$%';
   const delay = 1700;
   const duration = 900;
 
+  if (window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+    el.textContent = finalText;
+    return;
+  }
+
   function step(timestamp, startTime) {
+    if (run !== runId) return;
     if (!startTime) startTime = timestamp;
     const p = Math.min((timestamp - startTime) / duration, 1);
     const n = Math.floor(p * finalText.length);
@@ -40,7 +61,8 @@ function start(el) {
     }
   }
 
-  setTimeout(() => {
+  pendingStart = setTimeout(() => {
+    pendingStart = null;
     currentFrame = requestAnimationFrame((ts) => step(ts));
   }, delay);
 }

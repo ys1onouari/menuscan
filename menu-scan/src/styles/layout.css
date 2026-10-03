@@ -5,7 +5,7 @@ nav{
   -webkit-backdrop-filter:blur(28px) saturate(180%);
   border-bottom:1px solid var(--border);
   height:72px;display:flex;align-items:center;padding:0 32px;
-  transition:all .5s cubic-bezier(.16,1,.3,1)
+  transition:background-color,box-shadow,border-color .5s cubic-bezier(.16,1,.3,1)
 }
 nav.scrolled{
   background:rgba(10,10,10,.97);
@@ -17,10 +17,10 @@ nav.scrolled{
   display:flex;align-items:center;justify-content:space-between
 }
 .logo{display:flex;align-items:center;gap:12px;font-weight:800;font-size:1.15rem;text-decoration:none;color:var(--text);letter-spacing:-.02em}
-.logo-icon{width:36px;height:36px;background:var(--red);border-radius:10px;display:flex;align-items:center;justify-content:center;box-shadow:0 0 20px rgba(220,38,38,.3);transition:all .4s cubic-bezier(.34,1.56,.64,1)}
+.logo-icon{width:36px;height:36px;background:var(--red);border-radius:10px;display:flex;align-items:center;justify-content:center;box-shadow:0 0 20px rgba(220,38,38,.3);transition:box-shadow,transform .4s cubic-bezier(.34,1.56,.64,1)}
 .logo:hover .logo-icon{box-shadow:0 0 40px rgba(220,38,38,.6);transform:rotate(-10deg) scale(1.12)}
 .logo-icon svg{width:20px;height:20px;color:white}
-.nav-cta{background:var(--red);color:white;padding:10px 24px;border-radius:10px;font-weight:600;font-size:.875rem;text-decoration:none;transition:all .3s cubic-bezier(.16,1,.3,1);position:relative;overflow:hidden}
+.nav-cta{background:var(--red);color:white;padding:10px 24px;border-radius:10px;font-weight:600;font-size:.875rem;text-decoration:none;transition:background-color,transform,box-shadow .3s cubic-bezier(.16,1,.3,1);position:relative;overflow:hidden}
 .nav-cta::after{content:'';position:absolute;top:0;left:-100%;width:60%;height:100%;background:linear-gradient(90deg,transparent,rgba(255,255,255,.2),transparent);transform:skewX(-20deg);transition:left .5s ease}
 .nav-cta:hover{background:var(--red-h);transform:translateY(-2px);box-shadow:0 8px 30px rgba(220,38,38,.5)}
 .nav-cta:hover::after{left:160%}
@@ -77,7 +77,7 @@ footer::before{
 .f-logo{font-weight:800;color:white;font-size:1rem;display:flex;align-items:center;gap:10px;letter-spacing:-.02em}
 .f-logo-icon{width:28px;height:28px;background:var(--red);border-radius:8px;display:flex;align-items:center;justify-content:center;box-shadow:0 0 15px rgba(220,38,38,.3)}
 .f-links{display:flex;gap:24px}
-.f-links a{color:var(--dim);text-decoration:none;transition:all .3s ease;font-weight:500;position:relative}
+.f-links a{color:var(--dim);text-decoration:none;transition:color .3s ease;font-weight:500;position:relative}
 .f-links a::after{content:'';position:absolute;bottom:-2px;left:0;width:0;height:1px;background:var(--red);transition:width .3s ease}
 .f-links a:hover{color:white}
 .f-links a:hover::after{width:100%}

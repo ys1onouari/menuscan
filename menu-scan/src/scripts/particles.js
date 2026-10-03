@@ -41,10 +41,36 @@ export function initParticles() {
 
   const particles = Array.from({ length: 90 }, () => new Particle());
 
+  let visible = true;
+  let frame = null;
+
   function anim() {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
     particles.forEach(p => { p.update(); p.draw(); });
-    requestAnimationFrame(anim);
+    frame = requestAnimationFrame(anim);
   }
-  anim();
+
+  function start() {
+    if (frame !== null) return;
+    frame = requestAnimationFrame(anim);
+  }
+
+  function stop() {
+    if (frame === null) return;
+    cancelAnimationFrame(frame);
+    frame = null;
+  }
+
+  new IntersectionObserver((entries) => {
+    visible = entries[0].isIntersecting;
+    if (visible) start();
+    else stop();
+  }, { threshold: 0 }).observe(canvas);
+
+  document.addEventListener('visibilitychange', () => {
+    if (document.hidden) stop();
+    else if (visible) start();
+  });
+
+  start();
 }

@@ -27,7 +27,7 @@
   .demo-title{font-size:1.15rem}
   .sec-label h2{font-size:1.8rem}
   .nav-cta{padding:8px 16px;font-size:.8rem}
-  .lang-btn{padding:3px 6px;font-size:.7rem}
+  .lang-btn{padding:4px 7px;font-size:.7rem;min-width:30px;text-align:center}
 }
 
 @media (max-width:480px){
@@ -48,7 +48,7 @@
   .logo-icon{width:30px;height:30px}
   .logo-icon svg{width:16px;height:16px}
   .lang-switcher{gap:1px}
-  .lang-btn{padding:3px 5px;font-size:.65rem}
+  .lang-btn{padding:4px 6px;font-size:.65rem;min-width:28px;text-align:center}
   .nav-cta{padding:6px 12px;font-size:.72rem}
   .step{padding:20px;gap:12px;border-radius:16px}
   .step-num{width:36px;height:36px;font-size:.9rem;border-radius:10px}

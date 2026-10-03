@@ -4,35 +4,30 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Menu Scan — Menu Digital QR Code | Sans abonnement</title>
-<meta name="description" content="Créez votre menu digital avec QR Code. Commandes WhatsApp, 4 langues, produits illimités. Paiement unique 500 DH — aucun abonnement. Maroc.">
+<title>Menu Scan — Service de menu digital QR Code | 500 DH, sans abonnement</title>
+<meta name="description" content="Service de menu digital QR Code pour restaurants et commerces au Maroc. Notre équipe met votre menu en ligne et ajoute vos produits. 500 DH, paiement unique, sans abonnement.">
 <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large">
 <link rel="canonical" href="https://menuscan.space/">
 
 <!-- Open Graph -->
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://menuscan.space/">
-<meta property="og:title" content="Menu Scan — Menu Digital QR Code">
-<meta property="og:description" content="Menu digital avec QR Code pour restaurants au Maroc. Commandes WhatsApp, 4 langues, paiement unique 500 DH.">
+<meta property="og:title" content="Menu Scan — Menu digital QR Code, mise en place par notre équipe">
+<meta property="og:description" content="Menu digital QR Code pour restaurants et commerces au Maroc. 500 DH, paiement unique, sans abonnement. Prêt en moins d'une heure.">
 <meta property="og:image" content="https://menuscan.space/og-image.jpg">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
-<meta property="og:locale" content="fr_MA">
+    <meta property="og:image:alt" content="Menu Scan - Menu digital QR Code pour restaurants">
+<meta property="og:locale" content="fr_MA" data-i18n-content="meta.ogLocale">
 
 <!-- Twitter Card -->
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="Menu Scan — Menu Digital QR Code">
-<meta name="twitter:description" content="Menu digital QR Code pour restaurants. Paiement unique 500 DH, sans abonnement.">
+<meta name="twitter:title" content="Menu Scan — Menu digital QR Code, mise en place par notre équipe">
+<meta name="twitter:description" content="Menu digital QR Code pour restaurants et commerces au Maroc. 500 DH, paiement unique, sans abonnement.">
 <meta name="twitter:image" content="https://menuscan.space/og-image.jpg">
 
-<!-- Preloads -->
-<link rel="preload" href="/assets/video/demo.mp4" as="video" type="video/mp4">
-
-<!-- Hreflang -->
+<!-- Hreflang : single URL, content switches client-side, so only real targets are declared -->
 <link rel="alternate" hreflang="fr" href="https://menuscan.space/">
-<link rel="alternate" hreflang="en" href="https://menuscan.space/en/">
-<link rel="alternate" hreflang="es" href="https://menuscan.space/es/">
-<link rel="alternate" hreflang="ar" href="https://menuscan.space/ar/">
 <link rel="alternate" hreflang="x-default" href="https://menuscan.space/">
 
 <!-- Favicon -->
@@ -47,25 +42,22 @@
 
 <link rel="stylesheet" href="/src/styles/main.css">
 
-<!-- Import map for native ES module resolution when served without Vite -->
-<script type="importmap">
-{
-  "imports": {
-    "i18next": "/node_modules/i18next/dist/esm/i18next.js",
-    "i18next-browser-languagedetector": "/node_modules/i18next-browser-languagedetector/dist/esm/i18nextBrowserLanguageDetector.js"
-  }
-}
-</script>
-
 <!-- JSON-LD Structured Data -->
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
-  "@type": "SoftwareApplication",
+  "@type": "Service",
   "name": "Menu Scan",
-  "description": "Menu digital avec QR Code pour restaurants et commerces au Maroc.",
+  "serviceType": "Création et mise en place de menu digital QR Code",
+  "description": "Service clé en main de menu digital QR Code pour restaurants et commerces au Maroc. L'ajout des produits et la mise en ligne du menu sont réalisés par l'équipe Menu Scan. Paiement unique de 500 DH, aucun abonnement.",
   "url": "https://menuscan.space",
-  "applicationCategory": "BusinessApplication",
+  "areaServed": { "@type": "Country", "name": "Maroc" },
+  "provider": {
+    "@type": "Organization",
+    "name": "Menu Scan",
+    "url": "https://menuscan.space"
+  },
+  "availableLanguage": ["fr", "en", "es", "ar"],
   "offers": {
     "@type": "Offer",
     "price": "500",
@@ -76,8 +68,7 @@
       "priceCurrency": "MAD",
       "unitText": "une fois"
     }
-  },
-  "operatingSystem": "Web"
+  }
 }
 </script>
 <script type="application/ld+json">
@@ -90,7 +81,7 @@
       "name": "Pourquoi pas d'abonnement ?",
       "acceptedAnswer": {
         "@type": "Answer",
-        "text": "500 DH une seule fois, à vous pour toujours. Pas de frais mensuels, pas de renouvellement, pas de mauvaise surprise."
+        "text": "Menu Scan se paie une seule fois : 500 DH. Aucun abonnement mensuel, aucun frais récurrent. Votre menu digital reste en ligne et hébergé."
       }
     },
     {
@@ -98,47 +89,55 @@
       "name": "Comment fonctionne le QR Code ?",
       "acceptedAnswer": {
         "@type": "Answer",
-        "text": "Chaque établissement reçoit un QR Code unique et permanent. Vos clients le scannent et accèdent directement au menu — imprimez-le sur tables, vitrines ou cartes de visite."
+        "text": "Votre établissement reçoit un QR Code unique. Vos clients le scannent avec l'appareil photo de leur téléphone et le menu digital s'ouvre directement, sans application à installer. Vous pouvez l'utiliser sur vos tables, vitrines, cartes ou réseaux sociaux."
       }
     },
     {
       "@type": "Question",
-      "name": "Puis-je modifier mes produits ?",
+      "name": "Comment ajouter ou modifier mes produits ?",
       "acceptedAnswer": {
         "@type": "Answer",
-        "text": "Oui, depuis le dashboard à tout moment. Modifications instantanées — pas besoin de re-generer le QR Code. Vos clients voient les changements en temps réel."
+        "text": "Vous nous transmettez vos produits, catégories, prix et descriptions. Notre équipe réalise la mise à jour de votre menu digital, gratuitement, dans le cadre du service."
       }
     },
     {
       "@type": "Question",
-      "name": "Les commandes arrivent où ?",
+      "name": "Comment mon menu est-il créé ?",
       "acceptedAnswer": {
         "@type": "Answer",
-        "text": "Directement sur votre WhatsApp : articles, quantités, total. Vous gérez tout depuis l'application que vous utilisez déjà au quotidien."
+        "text": "Vous nous envoyez vos produits, prix et informations. Notre équipe construit votre menu digital, le met en ligne et vous remet votre QR Code."
       }
     },
     {
       "@type": "Question",
-      "name": "Fonctionne pour un catalogue ou pas uniquement restaurant ?",
+      "name": "Qui ajoute mes produits ?",
       "acceptedAnswer": {
         "@type": "Answer",
-        "text": "Oui. Boutique, épicerie, pâtisserie, salon de thé… organisez par catégories et recevez les commandes sur WhatsApp. Parfait pour tout commerce."
+        "text": "Notre équipe ajoute gratuitement vos produits et vos catégories dans le cadre de la mise en place. Vous n'avez aucune gestion à faire."
       }
     },
     {
       "@type": "Question",
-      "name": "Comment se fait le paiement ?",
+      "name": "Combien de temps faut-il ?",
       "acceptedAnswer": {
         "@type": "Answer",
-        "text": "Paiement par virement bancaire ou espèces. Contactez-nous pour organiser le règlement."
+        "text": "Moins d'une heure. Dès que nous recevons vos informations, votre menu digital et votre QR Code sont prêts."
       }
     },
     {
       "@type": "Question",
-      "name": "Comment être accompagné ?",
+      "name": "Les menus sont-ils multilingues ?",
       "acceptedAnswer": {
         "@type": "Answer",
-        "text": "Nous répondons à vos questions par WhatsApp. Une assistance est disponible pour vous aider à configurer votre menu digital."
+        "text": "Oui. Vos clients consultent le menu en FR · EN · ES · AR, en français, anglais, espagnol ou arabe."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Comment commander ?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Contactez Menu Scan sur WhatsApp. Nous organisons la transmission de vos informations et la mise en place de votre menu."
       }
     },
     {
@@ -181,14 +180,14 @@
       <button class="lang-btn" data-lang="es" role="radio" aria-checked="false">ES</button>
       <button class="lang-btn" data-lang="ar" role="radio" aria-checked="false">AR</button>
     </div>
-    <a href="https://wa.me/212630230803?text=Bonjour%21%20Je%20souhaite%20commander%20Menu%20Scan%20%28menu%20digital%20QR%20Code%29%20%C3%A0%20500%20DH." target="_blank" rel="noopener" class="nav-cta" data-i18n="nav.cta">Commencer — 500 DH</a>
+    <a href="https://wa.me/212630230803" target="_blank" rel="noopener" class="nav-cta" data-i18n="nav.cta">Commencer — 500 DH</a>
   </div>
 </nav>
 
 <main>
   <!-- EN BREF : résumé factuel pour l'IA et les moteurs -->
   <section class="sr-only-summary" data-i18n-aria-label="srSummaryAria">
-    <p data-i18n="srSummary">Menu Scan est un service de menu digital QR Code pour restaurants et commerces au Maroc. Prix unique de 500 DH (dirhams marocains), sans abonnement ni frais récurrents. Fonctionnalités : QR Code personnalisé, commandes WhatsApp automatisées, dashboard d'administration en temps réel, support de 4 langues (français, anglais, espagnol, arabe), produits et catégories illimités, hébergement inclus. Configuration en moins d'une heure. Convient aux restaurants, cafés, boutiques, épiceries, pâtisseries et salons de thé.</p>
+    <p data-i18n="srSummary">Menu Scan est un service de création et de mise en place de menu digital QR Code pour restaurants et commerces au Maroc. Prix unique de 500 DH (dirhams marocains), paiement unique, sans abonnement ni frais récurrents. Principe : le client transmet ses produits, prix et informations, l'équipe Menu Scan met gratuitement le menu en ligne, ajoute les produits et remet un QR Code personnalisé. Le menu est prêt en moins d'une heure. Il est hébergé (hébergement inclus) et disponible en 4 langues : français, anglais, espagnol et arabe. Menu Scan n'est pas un logiciel de gestion de restaurant : le client n'utilise pas de dashboard, la gestion des produits, des catégories et des commandes est réalisée par l'équipe Menu Scan. Convient aux restaurants, cafés, pâtisseries, food trucks, hôtels et riads, boutiques, épiceries et salons de thé.</p>
   </section>
 
   <section id="hero" data-i18n-aria-label="hero.aria">
@@ -202,28 +201,28 @@
           <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2.5" aria-hidden="true" focusable="false"><path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5"/></svg>
           <span data-i18n="hero.badge">Paiement unique · Sans abonnement</span>
         </div>
-        <h1><span data-i18n="hero.title">Le menu digital</span> <span class="grad" id="scramble-text" data-i18n="hero.titleHighlight" aria-live="polite" role="text">sans abonnement.</span></h1>
-        <p class="hero-sub" data-i18n="hero.subtitle">QR Code personnalisé, commandes sur WhatsApp, dashboard simple — prêt en moins d'une heure.</p>
+        <h1><span data-i18n="hero.title">Votre menu digital QR Code</span> <span class="grad" id="scramble-text" data-i18n="hero.titleHighlight">prêt en moins d'une heure.</span></h1>
+        <p class="hero-sub" data-i18n="hero.subtitle">Vous nous envoyez vos produits, prix et informations. Notre équipe met votre menu en ligne gratuitement et vous remet votre QR Code.</p>
         <div class="price-tag">
-          <span class="amount" aria-label="500 dirhams marocains">500 DH</span>
+          <span class="amount" data-i18n="pricing.amount" data-i18n-aria-label="a11y.amountDh">500 DH</span>
           <span class="label" data-i18n="hero.priceLabel">à vie, une seule fois</span>
         </div>
         <div class="hero-btns">
-          <a href="https://wa.me/212630230803?text=Bonjour%21%20Je%20souhaite%20commander%20Menu%20Scan%20%28menu%20digital%20QR%20Code%29%20%C3%A0%20500%20DH." target="_blank" rel="noopener" class="btn-primary" aria-label="Commander via WhatsApp — Menu Scan">
+          <a href="https://wa.me/212630230803" target="_blank" rel="noopener" class="btn-primary" data-i18n-aria-label="a11y.waCta">
             <span data-i18n="hero.btnPrimary">Commencer maintenant</span>
             <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path stroke-linecap="round" stroke-linejoin="round" d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3"/></svg>
           </a>
           <a href="#details" class="btn-secondary" data-i18n="hero.btnSecondary">Voir les détails</a>
         </div>
         <ul class="hero-pills" data-i18n-aria-label="hero.pills.aria">
-          <li class="pill"><svg fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2" aria-hidden="true" focusable="false"><path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5"/></svg> <span data-i18n="hero.pills.qr">QR Code unique</span></li>
-          <li class="pill"><svg fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2" aria-hidden="true" focusable="false"><path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5"/></svg> <span data-i18n="hero.pills.whatsapp">Commandes WhatsApp</span></li>
+          <li class="pill"><svg fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2" aria-hidden="true" focusable="false"><path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5"/></svg> <span data-i18n="hero.pills.qr">QR Code personnalisé</span></li>
+          <li class="pill"><svg fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2" aria-hidden="true" focusable="false"><path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5"/></svg> <span data-i18n="hero.pills.setup">Mise en place par notre équipe</span></li>
           <li class="pill"><svg fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2" aria-hidden="true" focusable="false"><path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5"/></svg> <span data-i18n="hero.pills.langs">4 langues</span></li>
           <li class="pill"><svg fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2" aria-hidden="true" focusable="false"><path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5"/></svg> <span data-i18n="hero.pills.hosting">Hébergement inclus</span></li>
-          <li class="pill"><svg fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2" aria-hidden="true" focusable="false"><path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5"/></svg> <span data-i18n="hero.pills.unlimited">Produits illimités</span></li>
+          <li class="pill"><svg fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2" aria-hidden="true" focusable="false"><path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5"/></svg> <span data-i18n="hero.pills.fast">Prêt en moins d'une heure</span></li>
         </ul>
       </div>
-      <div class="phone-wrap" role="img" data-i18n-aria-label="phone.aria">
+      <div class="phone-wrap" role="group" data-i18n-aria-label="phone.aria">
         <div class="phone-tilt" id="phoneTilt">
           <div class="phone">
             <div class="phone-screen">
@@ -233,11 +232,11 @@
                   <span class="p-head-title" data-i18n="phone.title">Le Bistrot</span>
                   <p data-i18n="phone.subtitle">Menu Scan · menu digital</p>
                 </div>
-                <div class="p-cats" role="tablist" data-i18n-aria-label="phone.cats.aria">
-                  <span class="cat on" role="tab" aria-selected="true" tabindex="0" data-i18n="phone.cats.all">Tout</span>
-                  <span class="cat" role="tab" tabindex="0" data-i18n="phone.cats.starters">Entrées</span>
-                  <span class="cat" role="tab" tabindex="0" data-i18n="phone.cats.mains">Plats</span>
-                  <span class="cat" role="tab" tabindex="0" data-i18n="phone.cats.desserts">Desserts</span>
+                <div class="p-cats" inert>
+                  <span class="cat on" data-i18n="phone.cats.all">Tout</span>
+                  <span class="cat" data-i18n="phone.cats.starters">Entrées</span>
+                  <span class="cat" data-i18n="phone.cats.mains">Plats</span>
+                  <span class="cat" data-i18n="phone.cats.desserts">Desserts</span>
                 </div>
                 <div class="p-item">
                   <div class="p-img" aria-hidden="true">
@@ -257,7 +256,7 @@
                   </div>
                   <div class="p-info"><span class="p-item-name" data-i18n="phone.items.2.name">Couscous Royal</span><p data-i18n="phone.items.2.desc">Agneau, poulet, merguez</p><span class="pr">120 DH</span></div>
                 </div>
-                <a class="p-cta-bar" role="button" tabindex="0" data-i18n="phone.cta" href="https://wa.me/212630230803" target="_blank" rel="noopener noreferrer">Commander via WhatsApp</a>
+                <a class="p-cta-bar" data-i18n="phone.cta" href="https://wa.me/212630230803" target="_blank" rel="noopener noreferrer">Commander via WhatsApp</a>
               </div>
             </div>
           </div>
@@ -273,7 +272,7 @@
 
   <section id="details" data-i18n-aria-label="details.aria">
     <div class="details-inner">
-      <section aria-label="Comment ça marche">
+      <section data-i18n-aria-label="a11y.sections.how">
         <div class="sec-label reveal">
           <h2 data-i18n="details.stepsTitle">Comment ça marche ?</h2>
           <p data-i18n="details.stepsSubtitle">Trois étapes, moins d'une heure.</p>
@@ -281,75 +280,75 @@
         <div class="steps-row">
           <article class="step reveal">
             <span class="step-num" aria-hidden="true">1</span>
-            <div><h3 data-i18n="steps.0.title">Créez votre catalogue</h3><p data-i18n="steps.0.desc">Ajoutez produits, catégories et prix depuis le dashboard intuitif.</p></div>
+            <div><h3 data-i18n="steps.0.title">Envoyez-nous votre menu</h3><p data-i18n="steps.0.desc">Vous nous transmettez vos produits, catégories, prix et informations.</p></div>
           </article>
           <article class="step reveal">
             <span class="step-num" aria-hidden="true">2</span>
-            <div><h3 data-i18n="steps.1.title">Partagez le QR Code</h3><p data-i18n="steps.1.desc">Imprimez-le sur vos tables, vitrines ou réseaux sociaux.</p></div>
+            <div><h3 data-i18n="steps.1.title">Notre équipe s'occupe du reste</h3><p data-i18n="steps.1.desc">Nous préparons gratuitement votre menu digital et ajoutons vos produits.</p></div>
           </article>
           <article class="step reveal">
             <span class="step-num" aria-hidden="true">3</span>
-            <div><h3 data-i18n="steps.2.title">Recevez les commandes</h3><p data-i18n="steps.2.desc">Articles, quantités et total directement sur WhatsApp.</p></div>
+            <div><h3 data-i18n="steps.2.title">Recevez votre QR Code</h3><p data-i18n="steps.2.desc">Votre menu est prêt. Utilisez votre QR Code sur vos tables, vitrines, cartes ou réseaux sociaux.</p></div>
           </article>
         </div>
       </section>
 
-      <section aria-label="Fonctionnalités">
+      <section data-i18n-aria-label="a11y.sections.features">
         <div class="sec-label reveal">
-          <h2>Tout ce que vous offrez à vos clients</h2>
+          <h2 data-i18n="features.title">Tout ce que vous offrez à vos clients</h2>
         </div>
         <div class="feat-grid">
           <article class="feat reveal">
-            <div class="feat-icon" role="img" aria-label="Icône QR Code">
+            <div class="feat-icon" role="img" data-i18n-aria-label="a11y.icons.qr">
               <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.5" aria-hidden="true" focusable="false"><path stroke-linecap="round" stroke-linejoin="round" d="M3.75 4.875c0-.621.504-1.125 1.125-1.125h4.5c.621 0 1.125.504 1.125 1.125v4.5c0 .621-.504 1.125-1.125 1.125h-4.5A1.125 1.125 0 013.75 9.375v-4.5zM3.75 14.625c0-.621.504-1.125 1.125-1.125h4.5c.621 0 1.125.504 1.125 1.125v4.5c0 .621-.504 1.125-1.125 1.125h-4.5a1.125 1.125 0 01-1.125-1.125v-4.5zM13.5 4.875c0-.621.504-1.125 1.125-1.125h4.5c.621 0 1.125.504 1.125 1.125v4.5c0 .621-.504 1.125-1.125 1.125h-4.5A1.125 1.125 0 0113.5 9.375v-4.5z"/></svg>
             </div>
-            <h3 data-i18n="features.qr.title">QR Code unique</h3>
-            <p data-i18n="features.qr.desc">Personnalisé, permanent et scannable instantanément.</p>
+            <h3 data-i18n="features.qr.title">QR Code personnalisé</h3>
+            <p data-i18n="features.qr.desc">Un QR Code unique pour accéder directement à votre menu digital.</p>
           </article>
           <article class="feat reveal">
-            <div class="feat-icon" role="img" aria-label="Icône message WhatsApp">
-              <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.5" aria-hidden="true" focusable="false"><path stroke-linecap="round" stroke-linejoin="round" d="M7.5 8.25h9m-9 3H12m-9.75 1.51c0 1.6 1.123 2.994 2.707 3.227 1.129.166 2.27.293 3.423.379.35.026.67.21.865.501L12 21l2.755-4.133a1.14 1.14 0 01.865-.501 48.172 48.172 0 003.423-.379c1.584-.233 2.707-1.626 2.707-3.228V6.741c0-1.602-1.123-2.995-2.707-3.228A48.394 48.394 0 0012 3c-2.392 0-4.744.175-7.043.513C3.373 3.746 2.25 5.14 2.25 6.741v6.018z"/></svg>
+            <div class="feat-icon" role="img" data-i18n-aria-label="a11y.icons.menuList">
+              <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.5" aria-hidden="true" focusable="false"><path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5"/></svg>
             </div>
-            <h3 data-i18n="features.whatsapp.title">Commandes WhatsApp</h3>
-            <p data-i18n="features.whatsapp.desc">Reçues sur votre numéro, sans application supplémentaire.</p>
+            <h3 data-i18n="features.menu.title">Menu digital complet</h3>
+            <p data-i18n="features.menu.desc">Vos produits, catégories, descriptions et prix présentés clairement sur mobile.</p>
           </article>
           <article class="feat reveal">
-            <div class="feat-icon" role="img" aria-label="Icône tableau de bord">
-              <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.5" aria-hidden="true" focusable="false"><path stroke-linecap="round" stroke-linejoin="round" d="M3 13.125C3 12.504 3.504 12 4.125 12h2.25c.621 0 1.125.504 1.125 1.125v6.75C7.5 20.496 6.996 21 6.375 21h-2.25A1.125 1.125 0 013 19.875v-6.75zM9.75 8.625c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125v11.25c0 .621-.504 1.125-1.125 1.125h-2.25a1.125 1.125 0 01-1.125-1.125V8.625zM16.5 4.125c0-.621.504-1.125 1.125-1.125h2.25C20.496 3 21 3.504 21 4.125v15.75c0 .621-.504 1.125-1.125 1.125h-2.25a1.125 1.125 0 01-1.125-1.125V4.125z"/></svg>
+            <div class="feat-icon" role="img" data-i18n-aria-label="a11y.icons.team">
+              <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.5" aria-hidden="true" focusable="false"><path stroke-linecap="round" stroke-linejoin="round" d="M15 19.128a9.38 9.38 0 002.625.372 9.337 9.337 0 004.121-.952 4.125 4.125 0 00-7.533-2.493M15 19.128v-.003c0-1.113-.285-2.16-.786-3.07M15 19.128v.106A12.318 12.318 0 018.624 21c-2.331 0-4.512-.645-6.374-1.766l-.001-.109a6.375 6.375 0 0111.964-3.07M12 6.375a3.375 3.375 0 11-6.75 0 3.375 3.375 0 016.75 0zm8.25 2.25a2.625 2.625 0 11-5.25 0 2.625 2.625 0 015.25 0z"/></svg>
             </div>
-            <h3 data-i18n="features.dashboard.title">Dashboard</h3>
-            <p data-i18n="features.dashboard.desc">Statistiques, produits et commandes en temps réel.</p>
+            <h3 data-i18n="features.setup.title">Mise en place incluse</h3>
+            <p data-i18n="features.setup.desc">Notre équipe prépare votre menu digital et réalise la mise en ligne.</p>
           </article>
           <article class="feat reveal">
-            <div class="feat-icon" role="img" aria-label="Icône produits illimités">
-              <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.5" aria-hidden="true" focusable="false"><path stroke-linecap="round" stroke-linejoin="round" d="M15.75 10.5V6a3.75 3.75 0 10-7.5 0v4.5m11.356-1.993l1.263 12c.07.665-.45 1.243-1.119 1.243H4.25a1.125 1.125 0 01-1.12-1.243l1.264-12A1.125 1.125 0 015.513 7.5h12.974c.576 0 1.059.435 1.119 1.007z"/></svg>
+            <div class="feat-icon" role="img" data-i18n-aria-label="a11y.icons.updates">
+              <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.5" aria-hidden="true" focusable="false"><path stroke-linecap="round" stroke-linejoin="round" d="M16.023 9.348h4.992v-.001M2.985 19.644v-4.992m0 0h4.992m-4.993 0l3.181 3.183a8.25 8.25 0 0013.803-3.7M4.031 9.865a8.25 8.25 0 0113.803-3.7l3.181 3.182m0-4.991v4.99"/></svg>
             </div>
-            <h3 data-i18n="features.unlimited.title">Produits illimités</h3>
-            <p data-i18n="features.unlimited.desc">Ajoutez, modifiez et organisez en temps réel.</p>
+            <h3 data-i18n="features.updates.title">Mises à jour incluses</h3>
+            <p data-i18n="features.updates.desc">Vous nous transmettez vos changements, notre équipe met à jour votre menu.</p>
           </article>
           <article class="feat reveal">
-            <div class="feat-icon" role="img" aria-label="Icône langues">
+            <div class="feat-icon" role="img" data-i18n-aria-label="a11y.icons.languages">
               <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.5" aria-hidden="true" focusable="false"><path stroke-linecap="round" stroke-linejoin="round" d="M12 21a9.004 9.004 0 008.716-6.747M12 21a9.004 9.004 0 01-8.716-6.747M12 21c2.485 0 4.5-4.03 4.5-9S14.485 3 12 3m0 18c-2.485 0-4.5-4.03-4.5-9S9.515 3 12 3"/></svg>
             </div>
             <h3 data-i18n="features.langs.title">4 langues</h3>
-            <p data-i18n="features.langs.desc">FR · EN · ES · AR — automatique selon le client.</p>
+            <p data-i18n="features.langs.desc">FR · EN · ES · AR pour accueillir une clientèle internationale.</p>
           </article>
           <article class="feat reveal">
-            <div class="feat-icon" role="img" aria-label="Icône mobile">
+            <div class="feat-icon" role="img" data-i18n-aria-label="a11y.icons.mobile">
               <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.5" aria-hidden="true" focusable="false"><path stroke-linecap="round" stroke-linejoin="round" d="M10.5 1.5H8.25A2.25 2.25 0 006 3.75v16.5a2.25 2.25 0 002.25 2.25h7.5A2.25 2.25 0 0018 20.25V3.75a2.25 2.25 0 00-2.25-2.25H13.5m-3 0V3h3V1.5m-3 0h3m-3 18.75h3"/></svg>
             </div>
             <h3 data-i18n="features.mobile.title">100% mobile</h3>
-            <p data-i18n="features.mobile.desc">Aucun téléchargement requis pour vos clients.</p>
+            <p data-i18n="features.mobile.desc">Vos clients consultent le menu depuis leur téléphone, sans application à installer.</p>
           </article>
           <article class="feat reveal">
-            <div class="feat-icon" role="img" aria-label="Icône hébergement">
+            <div class="feat-icon" role="img" data-i18n-aria-label="a11y.icons.hosting">
               <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.5" aria-hidden="true" focusable="false"><path stroke-linecap="round" stroke-linejoin="round" d="M20.25 6.375c0 2.278-3.694 4.125-8.25 4.125S3.75 8.653 3.75 6.375m16.5 0c0-2.278-3.694-4.125-8.25-4.125S3.75 4.097 3.75 6.375m16.5 0v11.25c0 2.278-3.694 4.125-8.25 4.125s-8.25-1.847-8.25-4.125V6.375"/></svg>
             </div>
             <h3 data-i18n="features.hosting.title">Hébergement inclus</h3>
-            <p data-i18n="features.hosting.desc">En ligne 24/7, sécurisé et rapide.</p>
+            <p data-i18n="features.hosting.desc">Votre menu reste accessible en ligne sans abonnement mensuel.</p>
           </article>
           <article class="feat reveal">
-            <div class="feat-icon" role="img" aria-label="Icône multi-usages">
+            <div class="feat-icon" role="img" data-i18n-aria-label="a11y.icons.multi">
               <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.5" aria-hidden="true" focusable="false"><path stroke-linecap="round" stroke-linejoin="round" d="M9.568 3H5.25A2.25 2.25 0 003 5.25v4.318c0 .597.237 1.17.659 1.591l9.581 9.581c.699.699 1.78.872 2.607.33a18.095 18.095 0 005.223-5.223c.542-.827.369-1.908-.33-2.607L11.16 3.66A2.25 2.25 0 009.568 3z"/></svg>
             </div>
             <h3 data-i18n="features.uses.title">Multi-usages</h3>
@@ -358,128 +357,127 @@
         </div>
       </section>
 
-      <section aria-label="Cas d'utilisation">
+      <section data-i18n-aria-label="a11y.sections.usecases">
         <div class="sec-label reveal">
           <h2 data-i18n="useCases.title">Pour quel commerce ?</h2>
         </div>
         <div class="use-cases-row">
           <article class="feat reveal">
-            <div class="feat-icon" role="img" aria-label="Icône restaurant">
+            <div class="feat-icon" role="img" data-i18n-aria-label="a11y.icons.restaurant">
               <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.5" aria-hidden="true" focusable="false"><path stroke-linecap="round" stroke-linejoin="round" d="M12 8.25v-1.5m0 1.5c-1.355 0-2.697.056-4.024.166C6.845 8.51 6 9.473 6 10.608v2.513m6-4.371c1.355 0 2.697.055 4.024.165C17.155 8.51 18 9.473 18 10.608v2.513m-3-2.313c.087.06.18.118.27.18M6 10.608l.003.001m0 0L6 13.12c0 .657.326 1.268.853 1.628l3.75 2.555c.228.156.513.234.797.234m0 0a2.25 2.25 0 002.25-2.25v-2.25m-2.25 4.5c.284 0 .57-.078.797-.234m0 0l3.75-2.555A2.004 2.004 0 0018 13.121V10.61M6 10.608v-.001l.003-.001"/></svg>
             </div>
             <h3 data-i18n="useCases.items.0.type">Restaurant</h3>
-            <p data-i18n="useCases.items.0.desc">Remplacer les menus papier, permettre aux clients de commander depuis la table, réduire le temps d'attente et les erreurs de commande.</p>
+            <p data-i18n="useCases.items.0.desc">Remplacer les menus papier, présenter clairement vos plats et vos prix, éviter l'impression à chaque changement.</p>
           </article>
           <article class="feat reveal">
-            <div class="feat-icon" role="img" aria-label="Icône café">
+            <div class="feat-icon" role="img" data-i18n-aria-label="a11y.icons.cafe">
               <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.5" aria-hidden="true" focusable="false"><path stroke-linecap="round" stroke-linejoin="round" d="M8.25 9V5.25A2.25 2.25 0 0110.5 3h6a2.25 2.25 0 012.25 2.25v13.5A2.25 2.25 0 0116.5 21h-6a2.25 2.25 0 01-2.25-2.25V15M12 9l3 3m0 0-3 3m3-3H2.25"/></svg>
             </div>
             <h3 data-i18n="useCases.items.1.type">Café / Snack</h3>
-            <p data-i18n="useCases.items.1.desc">Afficher une carte lisible sans contact, permettre aux clients de commander depuis leur place, mise à jour rapide des prix et des offres.</p>
+            <p data-i18n="useCases.items.1.desc">Afficher une carte claire sur chaque table, sans contact, et faire mettre à jour vos prix et vos offres par notre équipe.</p>
           </article>
           <article class="feat reveal">
-            <div class="feat-icon" role="img" aria-label="Icône pâtisserie">
+            <div class="feat-icon" role="img" data-i18n-aria-label="a11y.icons.bakery">
               <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.5" aria-hidden="true" focusable="false"><path stroke-linecap="round" stroke-linejoin="round" d="M9.813 15.904L9 18.75l-.813-2.846a4.5 4.5 0 00-3.09-3.09L2.25 12l2.846-.813a4.5 4.5 0 003.09-3.09L9 5.25l.813 2.846a4.5 4.5 0 003.09 3.09L15.75 12l-2.846.813a4.5 4.5 0 00-3.09 3.09z"/></svg>
             </div>
             <h3 data-i18n="useCases.items.2.type">Pâtisserie</h3>
-            <p data-i18n="useCases.items.2.desc">Présenter les pâtisseries avec descriptions, gérer les commandes à emporter via WhatsApp, catalogue pour les gâteaux sur commande.</p>
+            <p data-i18n="useCases.items.2.desc">Présenter vos pâtisseries avec descriptions et prix, faire ajouter vos nouveautés au catalogue par notre équipe.</p>
           </article>
           <article class="feat reveal">
-            <div class="feat-icon" role="img" aria-label="Icône food truck">
+            <div class="feat-icon" role="img" data-i18n-aria-label="a11y.icons.foodTruck">
               <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.5" aria-hidden="true" focusable="false"><path stroke-linecap="round" stroke-linejoin="round" d="M8.25 18.75a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m3 0h6m-9 0H3.375a1.125 1.125 0 01-1.125-1.125V14.25m17.25 4.5a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m3 0h1.125c.621 0 1.129-.504 1.09-1.124a17.902 17.902 0 00-3.213-9.193 2.056 2.056 0 00-1.58-.86H14.25M16.5 18.75h-2.25m0-11.177v-.958c0-.568-.422-1.048-.987-1.106a48.554 48.554 0 00-10.026 0 1.106 1.106 0 00-.987 1.106v7.635m12-6.677v6.677m0 4.5v-4.5m0 0h-12"/></svg>
             </div>
             <h3 data-i18n="useCases.items.3.type">Food truck</h3>
             <p data-i18n="useCases.items.3.desc">QR Code sur le véhicule, menu consultable sans impression, changement de carte selon les déplacements.</p>
           </article>
           <article class="feat reveal">
-            <div class="feat-icon" role="img" aria-label="Icône hôtel">
+            <div class="feat-icon" role="img" data-i18n-aria-label="a11y.icons.hotel">
               <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.5" aria-hidden="true" focusable="false"><path stroke-linecap="round" stroke-linejoin="round" d="M2.25 21h19.5m-18-18v18m10.5-18v18m6-13.5V21M6.75 6.75h.75m-.75 3h.75m-.75 3h.75m3-6h.75m-.75 3h.75m-.75 3h.75M6.75 21v-3.375c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125V21M3 3h12m-.75 4.5H21m-3.75 3.75h.008v.008h-.008v-.008zm0 3h.008v.008h-.008v-.008zm0 3h.008v.008h-.008v-.008z"/></svg>
             </div>
             <h3 data-i18n="useCases.items.4.type">Hôtel / Riad</h3>
-            <p data-i18n="useCases.items.4.desc">Menu multilingue pour clients internationaux, room service via WhatsApp, carte du restaurant de l'hôtel.</p>
+            <p data-i18n="useCases.items.4.desc">Menu multilingue pour une clientèle internationale, carte du restaurant accessible depuis chaque chambre, plusieurs langues au choix.</p>
           </article>
           <article class="feat reveal">
-            <div class="feat-icon" role="img" aria-label="Icône boutique">
+            <div class="feat-icon" role="img" data-i18n-aria-label="a11y.icons.shop">
               <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.5" aria-hidden="true" focusable="false"><path stroke-linecap="round" stroke-linejoin="round" d="M13.5 21v-7.5a.75.75 0 01.75-.75h3a.75.75 0 01.75.75V21m-4.5 0H2.36m11.14 0H18m0 0h3.64m-1.39 0V9.349m-16.5 11.65V9.35m0 0a3.001 3.001 0 003.75-.615A2.993 2.993 0 009.75 9.75c.896 0 1.7-.393 2.25-1.016a2.993 2.993 0 002.25 1.016c.896 0 1.7-.393 2.25-1.016a3.001 3.001 0 003.75.614m-16.5 0a3.004 3.004 0 01-.621-4.72L4.318 3.44A1.5 1.5 0 015.378 3h13.243a1.5 1.5 0 011.06.44l1.19 1.189a3 3 0 01-.621 4.72m-13.5 8.65h3.75a.75.75 0 00.75-.75V13.5a.75.75 0 00-.75-.75H6.75a.75.75 0 00-.75.75v3.75c0 .415.336.75.75.75z"/></svg>
             </div>
             <h3 data-i18n="useCases.items.5.type">Boutique / Épicerie</h3>
-            <p data-i18n="useCases.items.5.desc">Catalogue produits avec prix, commandes WhatsApp pour le click & collect, mise à jour saisonnière.</p>
+            <p data-i18n="useCases.items.5.desc">Catalogue produits avec prix, tarifs et nouveautés mis à jour par notre équipe, sans gestion à votre charge.</p>
           </article>
         </div>
       </section>
 
-      <section aria-label="Pourquoi Menu Scan">
+      <section data-i18n-aria-label="a11y.sections.why">
         <div class="sec-label reveal">
           <h2 data-i18n="whyUs.title">Pourquoi choisir Menu Scan ?</h2>
         </div>
         <div class="why-row">
           <article class="feat reveal">
-            <div class="feat-icon" role="img" aria-label="Icône document">
+            <div class="feat-icon" role="img" data-i18n-aria-label="a11y.icons.document">
               <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.5" aria-hidden="true" focusable="false"><path stroke-linecap="round" stroke-linejoin="round" d="M19.5 14.25v-2.625a3.375 3.375 0 00-3.375-3.375h-1.5A1.125 1.125 0 0113.5 7.125v-1.5a3.375 3.375 0 00-3.375-3.375H8.25m2.25 0H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 00-9-9z"/></svg>
             </div>
             <h3 data-i18n="whyUs.items.0.label">Vs le menu papier</h3>
-            <p data-i18n="whyUs.items.0.desc">Un menu papier coûte à chaque réimpression. Menu Scan, 500 DH une fois, modifiable à volonté.</p>
+            <p data-i18n="whyUs.items.0.desc">Pas besoin de réimprimer pour avoir un menu digital. Un QR Code sur vos tables, vitrines, cartes ou réseaux sociaux — 500 DH une seule fois.</p>
           </article>
           <article class="feat reveal">
-            <div class="feat-icon" role="img" aria-label="Icône abonnement">
+            <div class="feat-icon" role="img" data-i18n-aria-label="a11y.icons.subscription">
               <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.5" aria-hidden="true" focusable="false"><path stroke-linecap="round" stroke-linejoin="round" d="M9.75 9.75l4.5 4.5m0-4.5l-4.5 4.5M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
             </div>
             <h3 data-i18n="whyUs.items.1.label">Vs les abonnements</h3>
-            <p data-i18n="whyUs.items.1.desc">Pas de frais mensuels ni d'engagement. Paiement unique, accès à vie.</p>
+            <p data-i18n="whyUs.items.1.desc">500 DH une seule fois. Aucun abonnement mensuel, aucun frais récurrent, aucun engagement.</p>
           </article>
           <article class="feat reveal">
-            <div class="feat-icon" role="img" aria-label="Icône code">
+            <div class="feat-icon" role="img" data-i18n-aria-label="a11y.icons.code">
               <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.5" aria-hidden="true" focusable="false"><path stroke-linecap="round" stroke-linejoin="round" d="M17.25 6.75L22.5 12l-5.25 5.25m-10.5 0L1.5 12l5.25-5.25m7.5-3l-4.5 16.5"/></svg>
             </div>
-            <h3 data-i18n="whyUs.items.2.label">Vs un développeur</h3>
-            <p data-i18n="whyUs.items.2.desc">Pas d'attente, pas de devis. Prêt en moins d'une heure pour 500 DH, sans compétence technique.</p>
+            <h3 data-i18n="whyUs.items.2.label">Une solution simple et clé en main</h3>
+            <p data-i18n="whyUs.items.2.desc">Notre équipe s'occupe de la mise en place : produits, catégories, mise en ligne et QR Code. Vous n'avez rien à configurer.</p>
           </article>
         </div>
       </section>
 
-      <section aria-label="Tarifs et questions fréquentes">
+      <section data-i18n-aria-label="a11y.sections.pricing">
         <div class="sec-label reveal">
-          <h2>Un prix unique, sans surprise</h2>
+          <h2 data-i18n="pricing.title">Un prix unique, sans surprise</h2>
         </div>
         <div class="bottom-row">
-          <article class="price-card reveal" aria-label="Carte tarifaire Menu Scan">
+          <article class="price-card reveal" data-i18n-aria-label="a11y.priceCard">
           <div class="star">
             <svg width="14" height="14" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M11.48 3.499a.562.562 0 011.04 0l2.125 5.111a.563.563 0 00.475.345l5.518.442c.499.04.701.663.321.988l-4.204 3.602a.563.563 0 00-.182.557l1.285 5.385a.562.562 0 01-.84.61l-4.725-2.885a.563.563 0 00-.586 0L6.982 20.54a.562.562 0 01-.84-.61l1.285-5.386a.562.562 0 00-.182-.557l-4.204-3.602a.563.563 0 01.321-.988l5.518-.442a.563.563 0 00.475-.345L11.48 3.5z"/></svg>
             <span data-i18n="pricing.star">Paiement unique</span>
           </div>
           <h2>Menu Scan</h2>
-          <div class="big-price" aria-label="500 dirhams marocains, une fois">500 DH           <span data-i18n="pricing.per">/ une fois</span></div>
+          <div class="big-price" data-i18n-aria-label="a11y.bigPrice"><b data-i18n="pricing.amount">500 DH</b>           <span data-i18n="pricing.per">/ une fois</span></div>
           <p class="once" data-i18n="pricing.once">Accès à vie — aucun abonnement</p>
           <ul class="feat-list">
-            <li><svg fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2.5" aria-hidden="true" focusable="false"><path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5"/></svg> <span data-i18n="pricing.list.0">Menu digital complet</span></li>
+            <li><svg fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2.5" aria-hidden="true" focusable="false"><path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5"/></svg> <span data-i18n="pricing.list.0">Menu digital</span></li>
             <li><svg fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2.5" aria-hidden="true" focusable="false"><path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5"/></svg> <span data-i18n="pricing.list.1">QR Code personnalisé</span></li>
-            <li><svg fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2.5" aria-hidden="true" focusable="false"><path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5"/></svg> <span data-i18n="pricing.list.2">Dashboard d'administration</span></li>
-            <li><svg fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2.5" aria-hidden="true" focusable="false"><path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5"/></svg> <span data-i18n="pricing.list.3">Commandes WhatsApp</span></li>
-            <li><svg fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2.5" aria-hidden="true" focusable="false"><path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5"/></svg> <span data-i18n="pricing.list.4">Produits & catégories illimités</span></li>
-            <li><svg fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2.5" aria-hidden="true" focusable="false"><path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5"/></svg> <span data-i18n="pricing.list.5">4 langues</span></li>
-            <li><svg fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2.5" aria-hidden="true" focusable="false"><path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5"/></svg> <span data-i18n="pricing.list.6">Hébergement inclus</span></li>
+            <li><svg fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2.5" aria-hidden="true" focusable="false"><path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5"/></svg> <span data-i18n="pricing.list.2">Mise en place par notre équipe</span></li>
+            <li><svg fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2.5" aria-hidden="true" focusable="false"><path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5"/></svg> <span data-i18n="pricing.list.3">Ajout des produits inclus</span></li>
+            <li><svg fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2.5" aria-hidden="true" focusable="false"><path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5"/></svg> <span data-i18n="pricing.list.4">4 langues</span></li>
+            <li><svg fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2.5" aria-hidden="true" focusable="false"><path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5"/></svg> <span data-i18n="pricing.list.5">Hébergement inclus</span></li>
           </ul>
-          <a href="https://wa.me/212630230803?text=Bonjour%21%20Je%20souhaite%20commander%20Menu%20Scan%20%28menu%20digital%20QR%20Code%29%20%C3%A0%20500%20DH." target="_blank" rel="noopener" class="cta-btn" data-i18n="pricing.cta">Commencer maintenant →</a>
+          <a href="https://wa.me/212630230803" target="_blank" rel="noopener" class="cta-btn" data-i18n="pricing.cta">Commencer maintenant →</a>
         </article>
 
         <div class="demo-section reveal">
-        <h2 class="demo-title sr-only" aria-hidden="true">Voyez MenuScan en action</h2>
-        <p class="demo-sub sr-only" aria-hidden="true">Découvrez en moins d'une minute comment créer votre menu digital, partager votre QR Code et recevoir les commandes directement sur WhatsApp.</p>
+        <h2 class="demo-title sr-only" data-i18n="demo.title">Voyez MenuScan en action</h2>
+        <p class="demo-sub sr-only" data-i18n="demo.sub">Découvrez à quoi ressemble un menu digital Menu Scan et comment vos clients y accèdent en scannant le QR Code.</p>
         <div class="demo-video-wrap">
-          <video autoplay loop muted playsinline width="100%" preload="none" poster="/og-image.jpg">
+          <video id="demoVideo" loop muted playsinline controls width="100%" preload="none" poster="/og-image.jpg" data-i18n-aria-label="demo.videoAria">
             <source src="/assets/video/demo.mp4" type="video/mp4">
           </video>
-          <details class="video-transcript sr-only" aria-hidden="true">
+          <details class="video-transcript sr-only">
             <summary data-i18n="demo.transcriptToggle">Lire la transcription</summary>
-            <div class="transcript-content" data-i18n="demo.transcript">La vidéo montre un client scanner un QR Code avec son téléphone. Le menu digital Menu Scan s'ouvre instantanément dans le navigateur. Le client navigue entre les catégories, sélectionne des produits et envoie sa commande directement via WhatsApp au restaurant.</div>
+            <div class="transcript-content" data-i18n="demo.transcript">La vidéo montre un client qui scanne un QR Code avec son téléphone. Le menu digital Menu Scan s'ouvre instantanément dans le navigateur. Le client parcourt les catégories et consulte les produits, leurs descriptions et leurs prix. Un menu Menu Scan est disponible en quatre langues : français, anglais, espagnol et arabe.</div>
           </details>
-          <p class="demo-legend sr-only" aria-hidden="true" data-i18n="demo.legend">Vidéo de démonstration du dashboard Menu Scan : création du catalogue, partage du QR Code et réception des commandes WhatsApp.</p>
+          <p class="demo-legend sr-only" data-i18n="demo.legend">Vidéo de démonstration d'un menu digital Menu Scan : un client scanne le QR Code et parcourt son menu depuis son téléphone.</p>
         </div>
         </div>
         </div>
       </section>
 
-      <section aria-label="Questions fréquentes">
+      <section data-i18n-aria-label="a11y.sections.faq">
         <div class="sec-label reveal">
           <h2 data-i18n="faq.title">Questions fréquentes</h2>
         </div>
@@ -490,7 +488,7 @@
               <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2.5" aria-hidden="true" focusable="false"><path stroke-linecap="round" stroke-linejoin="round" d="M19.5 8.25l-7.5 7.5-7.5-7.5"/></svg>
             </div>
             <div class="faq-a" itemscope itemprop="acceptedAnswer" itemtype="https://schema.org/Answer">
-              <div itemprop="text" data-i18n="faq.items.0.a">500 DH une seule fois, à vous pour toujours. Pas de frais mensuels, pas de renouvellement, pas de mauvaise surprise.</div>
+              <div itemprop="text" data-i18n="faq.items.0.a">Menu Scan se paie une seule fois : 500 DH. Aucun abonnement mensuel, aucun frais récurrent. Votre menu digital reste en ligne et hébergé.</div>
             </div>
           </article>
           <article class="faq-item reveal" itemscope itemprop="mainEntity" itemtype="https://schema.org/Question">
@@ -499,61 +497,70 @@
               <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2.5" aria-hidden="true" focusable="false"><path stroke-linecap="round" stroke-linejoin="round" d="M19.5 8.25l-7.5 7.5-7.5-7.5"/></svg>
             </div>
             <div class="faq-a" itemscope itemprop="acceptedAnswer" itemtype="https://schema.org/Answer">
-              <div itemprop="text" data-i18n="faq.items.1.a">Chaque établissement reçoit un QR Code unique et permanent. Vos clients le scannent et accèdent directement au menu — imprimez-le sur tables, vitrines ou cartes de visite.</div>
+              <div itemprop="text" data-i18n="faq.items.1.a">Votre établissement reçoit un QR Code unique. Vos clients le scannent avec l'appareil photo de leur téléphone et le menu digital s'ouvre directement, sans application à installer. Vous pouvez l'utiliser sur vos tables, vitrines, cartes ou réseaux sociaux.</div>
             </div>
           </article>
           <article class="faq-item reveal" itemscope itemprop="mainEntity" itemtype="https://schema.org/Question">
             <div class="faq-q" role="button" tabindex="0" aria-expanded="false" itemprop="name">
-              <span data-i18n="faq.items.2.q">Puis-je modifier mes produits ?</span>
+              <span data-i18n="faq.items.2.q">Comment ajouter ou modifier mes produits ?</span>
               <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2.5" aria-hidden="true" focusable="false"><path stroke-linecap="round" stroke-linejoin="round" d="M19.5 8.25l-7.5 7.5-7.5-7.5"/></svg>
             </div>
             <div class="faq-a" itemscope itemprop="acceptedAnswer" itemtype="https://schema.org/Answer">
-              <div itemprop="text" data-i18n="faq.items.2.a">Oui, depuis le dashboard à tout moment. Modifications instantanées — pas besoin de re-générer le QR Code. Vos clients voient les changements en temps réel.</div>
+              <div itemprop="text" data-i18n="faq.items.2.a">Vous nous transmettez vos produits, catégories, prix et descriptions. Notre équipe réalise la mise à jour de votre menu digital, gratuitement, dans le cadre du service.</div>
             </div>
           </article>
           <article class="faq-item reveal" itemscope itemprop="mainEntity" itemtype="https://schema.org/Question">
             <div class="faq-q" role="button" tabindex="0" aria-expanded="false" itemprop="name">
-              <span data-i18n="faq.items.3.q">Les commandes arrivent où ?</span>
+              <span data-i18n="faq.items.3.q">Comment mon menu est-il créé ?</span>
               <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2.5" aria-hidden="true" focusable="false"><path stroke-linecap="round" stroke-linejoin="round" d="M19.5 8.25l-7.5 7.5-7.5-7.5"/></svg>
             </div>
             <div class="faq-a" itemscope itemprop="acceptedAnswer" itemtype="https://schema.org/Answer">
-              <div itemprop="text" data-i18n="faq.items.3.a">Directement sur votre WhatsApp : articles, quantités, total. Vous gérez tout depuis l'application que vous utilisez déjà au quotidien.</div>
+              <div itemprop="text" data-i18n="faq.items.3.a">Vous nous envoyez vos produits, prix et informations. Notre équipe construit votre menu digital, le met en ligne et vous remet votre QR Code.</div>
             </div>
           </article>
           <article class="faq-item reveal" itemscope itemprop="mainEntity" itemtype="https://schema.org/Question">
             <div class="faq-q" role="button" tabindex="0" aria-expanded="false" itemprop="name">
-              <span data-i18n="faq.items.4.q">Fonctionne pour un catalogue (pas restaurant) ?</span>
+              <span data-i18n="faq.items.4.q">Qui ajoute mes produits ?</span>
               <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2.5" aria-hidden="true" focusable="false"><path stroke-linecap="round" stroke-linejoin="round" d="M19.5 8.25l-7.5 7.5-7.5-7.5"/></svg>
             </div>
             <div class="faq-a" itemscope itemprop="acceptedAnswer" itemtype="https://schema.org/Answer">
-              <div itemprop="text" data-i18n="faq.items.4.a">Oui. Boutique, épicerie, pâtisserie, salon de thé… organisez par catégories et recevez les commandes sur WhatsApp. Parfait pour tout commerce.</div>
+              <div itemprop="text" data-i18n="faq.items.4.a">Notre équipe ajoute gratuitement vos produits et vos catégories dans le cadre de la mise en place. Vous n'avez aucune gestion à faire.</div>
             </div>
           </article>
           <article class="faq-item reveal" itemscope itemprop="mainEntity" itemtype="https://schema.org/Question">
             <div class="faq-q" role="button" tabindex="0" aria-expanded="false" itemprop="name">
-              <span data-i18n="faq.items.5.q">Comment se fait le paiement ?</span>
+              <span data-i18n="faq.items.5.q">Combien de temps faut-il ?</span>
               <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2.5" aria-hidden="true" focusable="false"><path stroke-linecap="round" stroke-linejoin="round" d="M19.5 8.25l-7.5 7.5-7.5-7.5"/></svg>
             </div>
             <div class="faq-a" itemscope itemprop="acceptedAnswer" itemtype="https://schema.org/Answer">
-              <div itemprop="text" data-i18n="faq.items.5.a">Paiement par virement bancaire ou espèces. Contactez-nous pour organiser le règlement.</div>
+              <div itemprop="text" data-i18n="faq.items.5.a">Moins d'une heure. Dès que nous recevons vos informations, votre menu digital et votre QR Code sont prêts.</div>
             </div>
           </article>
           <article class="faq-item reveal" itemscope itemprop="mainEntity" itemtype="https://schema.org/Question">
             <div class="faq-q" role="button" tabindex="0" aria-expanded="false" itemprop="name">
-              <span data-i18n="faq.items.6.q">Comment être accompagné ?</span>
+              <span data-i18n="faq.items.6.q">Les menus sont-ils multilingues ?</span>
               <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2.5" aria-hidden="true" focusable="false"><path stroke-linecap="round" stroke-linejoin="round" d="M19.5 8.25l-7.5 7.5-7.5-7.5"/></svg>
             </div>
             <div class="faq-a" itemscope itemprop="acceptedAnswer" itemtype="https://schema.org/Answer">
-              <div itemprop="text" data-i18n="faq.items.6.a">Nous répondons à vos questions par WhatsApp. Une assistance est disponible pour vous aider à configurer votre menu digital.</div>
+              <div itemprop="text" data-i18n="faq.items.6.a">Oui. Vos clients consultent le menu en FR · EN · ES · AR, en français, anglais, espagnol ou arabe.</div>
             </div>
           </article>
           <article class="faq-item reveal" itemscope itemprop="mainEntity" itemtype="https://schema.org/Question">
             <div class="faq-q" role="button" tabindex="0" aria-expanded="false" itemprop="name">
-              <span data-i18n="faq.items.7.q">Puis-je voir une démonstration ?</span>
+              <span data-i18n="faq.items.7.q">Comment commander ?</span>
               <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2.5" aria-hidden="true" focusable="false"><path stroke-linecap="round" stroke-linejoin="round" d="M19.5 8.25l-7.5 7.5-7.5-7.5"/></svg>
             </div>
             <div class="faq-a" itemscope itemprop="acceptedAnswer" itemtype="https://schema.org/Answer">
-              <div itemprop="text" data-i18n="faq.items.7.a">Contactez-nous sur WhatsApp pour une démonstration personnalisée de Menu Scan.</div>
+              <div itemprop="text" data-i18n="faq.items.7.a">Contactez Menu Scan sur WhatsApp. Nous organisons la transmission de vos informations et la mise en place de votre menu.</div>
+            </div>
+          </article>
+          <article class="faq-item reveal" itemscope itemprop="mainEntity" itemtype="https://schema.org/Question">
+            <div class="faq-q" role="button" tabindex="0" aria-expanded="false" itemprop="name">
+              <span data-i18n="faq.items.8.q">Puis-je voir une démonstration ?</span>
+              <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2.5" aria-hidden="true" focusable="false"><path stroke-linecap="round" stroke-linejoin="round" d="M19.5 8.25l-7.5 7.5-7.5-7.5"/></svg>
+            </div>
+            <div class="faq-a" itemscope itemprop="acceptedAnswer" itemtype="https://schema.org/Answer">
+              <div itemprop="text" data-i18n="faq.items.8.a">Contactez-nous sur WhatsApp pour une démonstration personnalisée de Menu Scan.</div>
             </div>
           </article>
         </div>
@@ -574,11 +581,12 @@
       </div>
 
       <div class="f-links">
+        <a href="/blog/" data-i18n="footer.blog">Blog</a>
         <a href="https://wa.me/212630230803" target="_blank" rel="noopener" data-i18n="footer.contact">Contact</a>
         <a href="https://instagram.com/menuscan" target="_blank" rel="noopener" data-i18n="footer.instagram">Instagram</a>
       </div>
 
-      <span data-i18n="footer.copyright">&copy; 2026 Menu Scan &middot; Made in Morocco</span>
+      <span><span data-i18n="footer.copyright"></span><a href="https://akkous.com/" target="_blank" rel="noopener" data-i18n="footer.copyrightLinkText">AKKOUS</a></span>
     </div>
 </footer>
 

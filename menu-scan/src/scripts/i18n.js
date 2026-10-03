@@ -3,6 +3,7 @@ import LanguageDetector from 'i18next-browser-languagedetector';
 import fr from '../locales/fr.js';
 
 const SUPPORTED = ['fr', 'en', 'es', 'ar'];
+const RTL = ['ar'];
 const loaded = new Set(['fr']);
 let initialized = false;
 
@@ -12,12 +13,16 @@ const localeLoaders = {
   ar: () => import('../locales/ar.js'),
 };
 
+function normalizeLang(lng) {
+  return typeof lng === 'string' ? lng.split('-')[0].toLowerCase() : '';
+}
+
 function detectInitialLanguage() {
   try {
-    const stored = localStorage.getItem('i18nextLng');
+    const stored = normalizeLang(localStorage.getItem('i18nextLng'));
     if (stored && SUPPORTED.includes(stored)) return stored;
   } catch {}
-  const nav = (navigator.language || '').split('-')[0];
+  const nav = normalizeLang(navigator.language);
   if (nav && SUPPORTED.includes(nav)) return nav;
   return 'fr';
 }
@@ -41,6 +46,10 @@ export async function initI18n() {
     detection: {
       order: ['localStorage', 'navigator'],
       caches: ['localStorage'],
+      convertDetectedLanguage: (lng) => {
+        const base = normalizeLang(lng);
+        return SUPPORTED.includes(base) ? base : lng;
+      },
     },
     interpolation: {
       escapeValue: false,
@@ -55,22 +64,23 @@ export function t(key) {
 }
 
 export async function changeLanguage(lng) {
-  if (!loaded.has(lng) && localeLoaders[lng]) {
-    const mod = await localeLoaders[lng]();
-    i18next.addResourceBundle(lng, 'translation', mod.default);
-    loaded.add(lng);
+  const base = normalizeLang(lng);
+  if (!loaded.has(base) && localeLoaders[base]) {
+    const mod = await localeLoaders[base]();
+    i18next.addResourceBundle(base, 'translation', mod.default);
+    loaded.add(base);
   }
-  i18next.changeLanguage(lng);
+  await i18next.changeLanguage(base);
   applyLanguage();
-  document.dispatchEvent(new CustomEvent('languagechange', { detail: { language: lng } }));
+  document.dispatchEvent(new CustomEvent('languagechange', { detail: { language: base } }));
   const announcer = document.getElementById('lang-announce');
-  if (announcer) announcer.textContent = `Langue chang\u00e9e : ${lng}`;
+  if (announcer) announcer.textContent = t('langAnnounce').replace('{lang}', t('switcher.' + base));
 }
 
 function applyLanguage() {
-  const lang = i18next.language;
+  const lang = normalizeLang(i18next.resolvedLanguage) || normalizeLang(i18next.language) || 'fr';
   document.documentElement.lang = lang;
-  document.documentElement.dir = lang === 'ar' ? 'rtl' : 'ltr';
+  document.documentElement.dir = RTL.includes(lang) ? 'rtl' : 'ltr';
   translatePage();
 }
 
@@ -96,6 +106,10 @@ export function translatePage() {
     el.setAttribute('aria-label', t(el.getAttribute('data-i18n-aria-label')));
   });
 
+  document.querySelectorAll('[data-i18n-content]').forEach((el) => {
+    el.setAttribute('content', t(el.getAttribute('data-i18n-content')));
+  });
+
   const titleEl = document.querySelector('title');
   if (titleEl) titleEl.textContent = t('meta.title');
 
@@ -111,9 +125,25 @@ export function translatePage() {
   const ogImgAlt = document.querySelector('meta[property="og:image:alt"]');
   if (ogImgAlt) ogImgAlt.setAttribute('content', t('meta.ogImgAlt'));
 
+  const ogLocale = document.querySelector('meta[property="og:locale"]');
+  if (ogLocale) ogLocale.setAttribute('content', t('meta.ogLocale'));
+
   const twitterTitle = document.querySelector('meta[name="twitter:title"]');
   if (twitterTitle) twitterTitle.setAttribute('content', t('meta.twitterTitle'));
 
   const twitterDesc = document.querySelector('meta[name="twitter:description"]');
   if (twitterDesc) twitterDesc.setAttribute('content', t('meta.twitterDescription'));
+
+  updateWhatsAppLinks();
+}
+
+function updateWhatsAppLinks() {
+  const msg = encodeURIComponent(t('waMessage'));
+  document.querySelectorAll('a[href^="https://wa.me/"]').forEach((a) => {
+    const href = a.getAttribute('href');
+    if (!href) return;
+    const numMatch = href.match(/wa\.me\/(\d+)/);
+    const num = numMatch ? numMatch[1] : '212630230803';
+    a.setAttribute('href', `https://wa.me/${num}${msg ? `?text=${msg}` : ''}`);
+  });
 }
