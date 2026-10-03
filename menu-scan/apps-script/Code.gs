@@ -232,6 +232,7 @@ function formatConnectionReport(result) {
   var c = result.checks;
   var lines = [
     'Dépôt       : ' + c.owner + '/' + c.repository + ' (' + c.branch + ')',
+    'Préfixe     : ' + (c.pathPrefix || '(aucun — projet à la racine du dépôt)'),
     'API         : ' + c.apiBase,
     'Token       : ' + (c.tokenConfigured ? 'configuré' : 'ABSENT'),
     'Joignable   : ' + (c.reachable ? 'oui' : 'NON'),
@@ -251,6 +252,7 @@ function buildConfigurationHtml() {
     ['PROP', PROP_KEYS.OWNER, propGet(PROP_KEYS.OWNER) || APP.OWNER + ' (défaut)'],
     ['PROP', PROP_KEYS.REPOSITORY, propGet(PROP_KEYS.REPOSITORY) || APP.REPOSITORY + ' (défaut)'],
     ['PROP', PROP_KEYS.BRANCH, propGet(PROP_KEYS.BRANCH) || APP.BRANCH + ' (défaut)'],
+    ['PROP', PROP_KEYS.PATH_PREFIX, propGet(PROP_KEYS.PATH_PREFIX) || '(aucun)'],
     ['PROP', PROP_KEYS.API_BASE, propGet(PROP_KEYS.API_BASE) || APP.API_BASE + ' (défaut)'],
     ['PROP', PROP_KEYS.SPREADSHEET_ID, propGet(PROP_KEYS.SPREADSHEET_ID) || '(script lié)'],
     ['PROP', PROP_KEYS.WRITE_ENABLED, writesEnabled() ? 'TRUE' : 'FALSE (verrou fermé)'],

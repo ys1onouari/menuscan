@@ -81,3 +81,6 @@ footer::before{
 .f-links a::after{content:'';position:absolute;bottom:-2px;left:0;width:0;height:1px;background:var(--red);transition:width .3s ease}
 .f-links a:hover{color:white}
 .f-links a:hover::after{width:100%}
+.f-credit{color:var(--red);transition:color .3s ease}
+.f-credit:hover{color:var(--red-h)}
+.f-credit:active{color:var(--red-h)}

@@ -27,6 +27,46 @@ var ERR_TEST_MODE =
   'TEST_MODE=TRUE : aucune écriture GitHub n\'est effectuée.';
 
 /* -------------------------------------------------------------------------- */
+/* Préfixe de dépôt (projet dans un sous-dossier)                             */
+/* -------------------------------------------------------------------------- */
+
+/**
+ * Préfixe de dépôt GitHub (facultatif), ex. « menu-scan ».
+ *
+ * Tous les chemins INTERNES du projet (APP.TEMPLATE_PATH, blogPath, colonne
+ * GITHUB_PATH, ARTICLE_PATH_RE, listes de refus, sitemap, articles.json) restent
+ * SANS préfixe. Le préfixe n'est ajouté qu'au moment de construire l'URL de
+ * l'API Contents, via repoPath(), dans getFile / createOrUpdateFile /
+ * deleteFile.
+ *
+ * @return {string} préfixe normalisé, '' si absent
+ * @throws {Error} si la valeur contient un caractère interdit
+ */
+function getGithubPathPrefix() {
+  var p = String(propGet(PROP_KEYS.PATH_PREFIX) || '').trim();
+  p = p.replace(/^\/+/, '').replace(/\/+$/, '');
+  if (!p) return '';
+  if (p.indexOf('..') !== -1 || !/^[A-Za-z0-9._-]+(?:\/[A-Za-z0-9._-]+)*$/.test(p)) {
+    throw new Error(
+      'GITHUB_PATH_PREFIX invalide : « ' + p + ' ». Caractères autorisés : ' +
+      'lettres, chiffres, « . », « _ », « - » et « / » (ni « .. », ni antislash, ni « % », ni « * »).'
+    );
+  }
+  return p;
+}
+
+/**
+ * Chemin tel qu'il est envoyé à l'API GitHub : préfixe + chemin interne.
+ * Point d'application UNIQUE du préfixe.
+ */
+function repoPath(path) {
+  var s = String(path === null || path === undefined ? '' : path).replace(/^\/+/, '');
+  if (!s) return s;
+  var prefix = getGithubPathPrefix();
+  return prefix ? prefix + '/' + s : s;
+}
+
+/* -------------------------------------------------------------------------- */
 /* Couche HTTP bas niveau                                                    */
 /* -------------------------------------------------------------------------- */
 
@@ -127,6 +167,7 @@ function testGithubConnection() {
     owner: optionalProp(PROP_KEYS.OWNER),
     repository: optionalProp(PROP_KEYS.REPOSITORY),
     branch: optionalProp(PROP_KEYS.BRANCH),
+    pathPrefix: optionalProp(PROP_KEYS.PATH_PREFIX),
     apiBase: getGithubApiBase(),
     reachable: false,
     defaultBranchMatches: false,
@@ -177,8 +218,9 @@ function testGithubConnection() {
  *          null si le fichier n'existe pas (404)
  */
 function getFile(path) {
+  var inputPath = String(path === null || path === undefined ? '' : path);
   var url = '/repos/' + getGithubOwner() + '/' + getGithubRepository() +
-    '/contents/' + path + '?ref=' + encodeURIComponent(getGithubBranch());
+    '/contents/' + repoPath(inputPath) + '?ref=' + encodeURIComponent(getGithubBranch());
   var response;
   try {
     response = ghRequest('get', url, null);
@@ -186,7 +228,12 @@ function getFile(path) {
     if (String(e.message).indexOf('GitHub API 404') !== -1) return null;
     throw e;
   }
-  return decodeContentResponse(JSON.parse(response.getContentText()));
+  var decoded = decodeContentResponse(JSON.parse(response.getContentText()));
+  if (!decoded) return null;
+  // Chemin d'ENTRÉE (sans préfixe), jamais celui renvoyé par l'API : il est
+  // écrit dans GITHUB_PATH et revérifié par la suppression.
+  decoded.path = inputPath;
+  return decoded;
 }
 
 /** Décode la réponse `contents` (base64, sauts de ligne inclus). */
@@ -250,7 +297,7 @@ function assertWritesAllowed() {
 function createOrUpdateFile(opt) {
   assertWritesAllowed();
 
-  var path = String(opt.path || '');
+  var path = String(opt && opt.path ? opt.path : '');
   if (!path) throw new Error('Chemin vide');
   var branch = opt.branch || getGithubBranch();
 
@@ -264,7 +311,7 @@ function createOrUpdateFile(opt) {
   var response = ghRequest(
     'put',
     '/repos/' + getGithubOwner() + '/' + getGithubRepository() +
-      '/contents/' + path,
+      '/contents/' + repoPath(path),
     payload
   );
 
@@ -272,7 +319,8 @@ function createOrUpdateFile(opt) {
   return {
     sha: String((data.content && data.content.sha) || ''),
     commitSha: String((data.commit && data.commit.sha) || ''),
-    path: String((data.content && data.content.path) || path)
+    // Chemin d'ENTRÉE (sans préfixe), jamais celui de l'API.
+    path: path
   };
 }
 
@@ -485,7 +533,7 @@ function deleteFile(opt) {
 
   var response = ghRequest(
     'delete',
-    '/repos/' + getGithubOwner() + '/' + getGithubRepository() + '/contents/' + path,
+    '/repos/' + getGithubOwner() + '/' + getGithubRepository() + '/contents/' + repoPath(path),
     // `sha` est EXIGE par l'API Contents : sans lui l'appel échoue (422) au
     // lieu de supprimer, et il interdit toute suppression récursive. Il est
     // transmis à l'identique, jamais recalculé.

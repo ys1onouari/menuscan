@@ -44,7 +44,10 @@ function loadArticleTemplate() {
       path: path,
       validation: null,
       error: 'Gabarit introuvable dans le dépôt : ' + path +
-        ' (branche ' + getGithubBranch() + ')'
+        ' (branche ' + getGithubBranch() + ', préfixe « ' +
+        (getGithubPathPrefix() || 'aucun') + ' »)' +
+        (getGithubPathPrefix() ? '' :
+          ' — Le projet est-il dans un sous-dossier du dépôt ? Renseignez GITHUB_PATH_PREFIX.')
     };
   }
 

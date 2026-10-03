@@ -28,7 +28,10 @@ var PROP_KEYS = {
   API_BASE: 'GITHUB_API_BASE',
   SPREADSHEET_ID: 'SPREADSHEET_ID',
   WRITE_ENABLED: 'GITHUB_WRITE_ENABLED',
-  SITE_ORIGIN: 'SITE_ORIGIN'
+  SITE_ORIGIN: 'SITE_ORIGIN',
+  // Sous-dossier du dépôt qui contient le projet (ex. « menu-scan »). Vide par
+  // défaut. Appliqué UNIQUEMENT à la frontière réseau de Github.gs.
+  PATH_PREFIX: 'GITHUB_PATH_PREFIX'
 };
 
 /** Clés de la feuille `Config` (ordre d'affichage imposé par la mission). */
