@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "generatedAt": "2026-10-04T13:23:06.114Z",
+  "generatedAt": "2026-10-04T13:23:40.406Z",
   "articles": [
     {
       "lang": "fr",
@@ -16,21 +16,6 @@
       "imageWidth": 1200,
       "imageHeight": 600,
       "translationGroup": "menu-digital-pressing"
-    },
-    {
-      "lang": "fr",
-      "slug": "menu-digital-garage-avantages",
-      "url": "/blog/fr/menu-digital-garage-avantages.html",
-      "title": "Quels avantages d’un menu digital pour un garage ?",
-      "excerpt": "Découvrez comment un menu digital garage présente vos prestations et tarifs sur smartphone tout en simplifiant les mises à jour.",
-      "category": "menu-digital",
-      "date": "2026-10-03",
-      "readingTime": 9,
-      "image": "/blog/images/How-to-Structure-a-Cafe-Menu-With-Many-Drinks-and-Small-Bites.jpg",
-      "imageAlt": "Menu digital garage présentant des prestations et tarifs sur smartphone via un QR Code",
-      "imageWidth": 1200,
-      "imageHeight": 600,
-      "translationGroup": "menu-digital-garage-avantages"
     }
   ]
 }
