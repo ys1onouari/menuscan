@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "generatedAt": "2026-10-04T13:22:34.505Z",
+  "generatedAt": "2026-10-04T13:23:06.114Z",
   "articles": [
     {
       "lang": "fr",
@@ -16,21 +16,6 @@
       "imageWidth": 1200,
       "imageHeight": 600,
       "translationGroup": "menu-digital-pressing"
-    },
-    {
-      "lang": "fr",
-      "slug": "mise-a-jour-menu-cafe-sans-reimprimer",
-      "url": "/blog/fr/mise-a-jour-menu-cafe-sans-reimprimer.html",
-      "title": "Comment mettre à jour une carte de café sans réimprimer ?",
-      "excerpt": "Prix, boissons ou produits changent régulièrement ? Découvrez comment garder une carte de café à jour sans réimprimer.",
-      "category": "restaurants-cafes",
-      "date": "2026-10-03",
-      "readingTime": 9,
-      "image": "/blog/images/How-to-Compare-One-Time-and-Subscription-Menu-Costs.jpg",
-      "imageAlt": "Gérant de café mettant à jour une carte digitale consultée sur smartphone via un QR Code",
-      "imageWidth": 1200,
-      "imageHeight": 600,
-      "translationGroup": "mise-a-jour-menu-cafe-sans-reimprimer"
     },
     {
       "lang": "fr",
