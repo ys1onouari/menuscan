@@ -17,6 +17,16 @@ npm run preview       # preview production build
 
 No test runner, no linter, no CI config. Never edit `dist/`.
 
+## Déploiement
+
+Cloudflare Workers Static Assets. `wrangler.jsonc` declares `assets.directory: "./dist"`, the folder `npm run build` produces. `wrangler` is **not** a dependency — deploy goes through `npx wrangler deploy`.
+
+- The Vite app lives in `menu-scan/`, one level below the Git repo root, so the Cloudflare build command must run from there (`vercel.json` does the same for Vercel).
+- **Node**: `.nvmrc` pins `22`. There is no `engines` field in `package.json`, so this file is what keeps the Cloudflare build on a Vite-compatible Node.
+- **`public/_headers`** is copied verbatim into `dist/` and is where the cache policy lives. `/assets/*` is `max-age=31536000, immutable` (hashed filenames). `/blog/assets/*` is deliberately **not** immutable: `blog.css` and `blog.js` keep fixed names, so they must stay revalidated.
+- **Never turn on the SPA fallback** (`not_found_handling: "single-page-application"`). The site is not a SPA: an unknown URL must return a real 404, and `blog/{lang}/{slug}.html` must keep resolving to the generated file. Leave `not_found_handling` unset (`none`).
+- Cloudflare caps a single uploaded file at 25 MiB — check `dist/assets/` (notably `assets/video/demo.mp4`) before adding large media.
+
 ## Architecture
 
 ```
