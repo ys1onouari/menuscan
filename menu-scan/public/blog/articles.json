@@ -1,5 +1,21 @@
 {
   "version": 1,
-  "generatedAt": "2026-10-03T21:28:16.090Z",
-  "articles": []
+  "generatedAt": "2026-10-04T01:39:08.075Z",
+  "articles": [
+    {
+      "lang": "fr",
+      "slug": "menu-digital-pressing",
+      "url": "/blog/fr/menu-digital-pressing.html",
+      "title": "Quels avantages d’un menu digital pour un pressing ?",
+      "excerpt": "Découvrez comment un menu digital pressing présente clairement les prestations et tarifs sur smartphone et simplifie les mises à jour.",
+      "category": "menu-digital",
+      "date": "2026-10-04",
+      "readingTime": 9,
+      "image": "/blog/images/How-Many-Languages-Should-a-Moroccan-Riad-Menu-Offer.jpg",
+      "imageAlt": "Menu digital pressing affichant des prestations et tarifs sur smartphone avec QR Code",
+      "imageWidth": 1200,
+      "imageHeight": 600,
+      "translationGroup": "menu-digital-pressing"
+    }
+  ]
 }
