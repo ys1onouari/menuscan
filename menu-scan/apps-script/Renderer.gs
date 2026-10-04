@@ -799,10 +799,16 @@ function publishRobots(html) {
 var REQUIRED_SEO_SLOTS = ['pageTitle', 'headline', 'metaDescription',
   'jsonLdHeadline', 'jsonLdDescription', 'breadcrumbTitle'];
 
-/** Libellés d'interface obligatoires dans une page publiée. */
+/**
+ * Libellés d'interface obligatoires dans une page publiée.
+ *
+ * Mêmes clés que le groupe « Pagination + pied de page » de
+ * `REQUIRED_PLACEHOLDERS` : un article publié ne doit jamais laisser un libellé
+ * vide, sinon le footer s'affiche avec un trou silencieux.
+ */
 var REQUIRED_LABELS = ['NAV_BLOG', 'NAV_ARIA', 'NAV_HOME_ARIA',
-  'TRANSLATIONS_ARIA', 'TOC_HEADING', 'PAGER_ARIA', 'FOOTER_ARIA',
-  'FOOTER_HOME', 'FOOTER_CONTACT'];
+  'TRANSLATIONS_ARIA', 'TOC_HEADING', 'PAGER_ARIA', 'FOOTER_BLOG',
+  'FOOTER_CONTACT', 'FOOTER_INSTAGRAM', 'FOOTER_COPYRIGHT', 'FOOTER_CREDIT'];
 
 /**
  * Emplacements obligatoires vides dans un modèle déjà construit.
@@ -1145,9 +1151,11 @@ function renderArticleHtml(article, options) {
     PAGER_ARIA: getLabelRaw('PAGER_ARIA', lang),
     PREV_LINK: prevLink,
     NEXT_LINK: nextLink,
-    FOOTER_ARIA: getLabelRaw('FOOTER_ARIA', lang),
-    FOOTER_HOME: getLabelRaw('FOOTER_HOME', lang),
-    FOOTER_CONTACT: getLabelRaw('FOOTER_CONTACT', lang)
+    FOOTER_BLOG: getLabelRaw('FOOTER_BLOG', lang),
+    FOOTER_CONTACT: getLabelRaw('FOOTER_CONTACT', lang),
+    FOOTER_INSTAGRAM: getLabelRaw('FOOTER_INSTAGRAM', lang),
+    FOOTER_COPYRIGHT: getLabelRaw('FOOTER_COPYRIGHT', lang),
+    FOOTER_CREDIT: getLabelRaw('FOOTER_CREDIT', lang)
   };
   var singleMode = {};
   RAW_HTML_PLACEHOLDERS.forEach(function (p) { singleMode[p] = 'raw'; });

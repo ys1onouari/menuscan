@@ -20,6 +20,8 @@ const { createContext, call } = require('./harness.cjs');
 const REPO_ROOT = path.join(__dirname, '..', '..');
 const TEMPLATE_PATH = path.join(REPO_ROOT, 'public', 'blog', 'template-article.html');
 const TEMPLATE = fs.readFileSync(TEMPLATE_PATH, 'utf8');
+/** Page d'accueil : référence visuelle et structurelle du pied de page du blog. */
+const SITE_HTML = path.join(REPO_ROOT, 'index.html');
 const SITE = 'https://menuscan.space';
 const SUFFIX = ' — Blog Menu Scan';
 
@@ -648,15 +650,55 @@ test('règle 5 : retour hub, fil d’Ariane et pied de page intacts', () => {
   contains(h, '<a class="b-nav-blog" href="/blog/">Blog</a>', 'entrée blog de la navigation');
   contains(h, '<a class="b-btn b-btn-ghost" href="/blog/">Voir tous les articles</a>', 'CTA vers le hub');
   const footer = /<footer[\s\S]*?<\/footer>/.exec(h)[0];
-  contains(footer, '<span class="b-foot-logo">', 'logo du pied de page');
-  contains(footer, '<nav class="b-foot-links" aria-label="Liens de pied de page">', 'nav du pied de page');
-  contains(footer, '<a href="/">Accueil</a>', 'lien Accueil');
+  contains(footer, '<div class="f-logo">', 'logo du pied de page');
+  contains(footer, '<div class="f-links">', 'bloc de liens du pied de page');
+  contains(footer, '<a href="/blog/" data-i18n="footer.blog">Blog</a>', 'lien Blog');
+  contains(footer, 'data-i18n="footer.contact">Contact</a>', 'lien Contact');
+  contains(footer, 'data-i18n="footer.instagram">Instagram</a>', 'lien Instagram');
+  contains(footer, 'data-i18n="footer.copyrightLinkText">AKKOUS</a>', 'crédit AKKOUS');
   contains(footer, 'Menu Scan', 'signature de marque');
+  notContains(footer, 'b-foot', 'plus aucune classe de l’ancien pied de page');
+  notContains(footer, 'Accueil', 'plus aucun lien Accueil (le nouveau footer est celui d’index.html)');
 });
 
-test('règle 5 : le pied de page reste sans lien concurrent vers le hub', () => {
+test('règle 5 : le pied de page localise ses cinq libellés', () => {
+  ['fr', 'en', 'es', 'ar'].forEach((lang) => {
+    const footer = /<footer[\s\S]*?<\/footer>/.exec(renderOk(makeArticle({ LANG: lang })).html)[0];
+    notContains(footer, '{{', 'aucun placeholder résiduel (' + lang + ')');
+    // Une valeur absente se lirait comme un trou : le copyright est le témoin.
+    ok(/data-i18n="footer\.copyright">[^<]+<\/span>/.test(footer),
+      'copyright rendu en ' + lang);
+    ok(/data-i18n="footer\.blog">[^<]+<\/a>/.test(footer),
+      'lien Blog rendu en ' + lang);
+  });
+});
+
+/**
+ * Le pied de page est celui de `index.html`, référence visuelle et structurelle :
+ * l'inventaire de ses liens est donc un contrat, pas une approximation. L'ancien
+ * footer interdisait le lien vers le hub ; le footer de `index.html` en contient
+ * UN, à côté du contact et d'Instagram. Le test vérifie l'inventaire complet —
+ * plus fort que l'ancien « aucun lien », car il détecte toute dérive.
+ *
+ * Le compte est tiré de `index.html` lui-même : si le footer de référence change,
+ * ce test doit changer avec lui.
+ */
+test('règle 5 : le pied de page est celui d’index.html, liens compris', () => {
   const footer = /<footer[\s\S]*?<\/footer>/.exec(renderOk(makeArticle()).html)[0];
-  notContains(footer, 'href="/blog/"', 'le hub est déjà atteint par la nav, le fil et le CTA');
+
+  const ref = /<footer[\s\S]*?<\/footer>/.exec(fs.readFileSync(SITE_HTML, 'utf8'))[0];
+  const links = (s) => (s.match(/<a\b/g) || []).length;
+  const hubLinks = (s) => (s.match(/href="\/blog\/"/g) || []).length;
+
+  eq(links(footer), links(ref), 'nombre de liens identique à index.html (' + links(ref) + ')');
+  eq(hubLinks(footer), hubLinks(ref),
+    'exactement ' + hubLinks(ref) + ' lien vers le hub, comme index.html');
+  eq((footer.match(/<nav\b/g) || []).length, 0,
+    'aucun <nav> : le nouveau footer n’a pas d’étiquette aria à traduire');
+
+  // Chaque lien du footer de référence doit se retrouver à l'identique.
+  ['href="https://wa.me/212630230803"', 'href="https://www.instagram.com/onouari"',
+    'class="f-credit"'].forEach((frag) => contains(footer, frag, 'fragment du footer de référence : ' + frag));
 });
 
 test('le gabarit n’est jamais modifié sur disque', () => {
@@ -830,7 +872,7 @@ test('sortie : mêmes invariants structurels que la production', () => {
 
   // Vocabulaire de classes réellement émis par le gabarit de production.
   ['b-crumb', 'b-toc-heading', 'toc', 'b-meta', 'b-hero-img', 'article-excerpt',
-    'b-body', 'b-faq', 'b-cta', 'b-related', 'b-pager', 'b-back', 'b-foot'
+    'b-body', 'b-faq', 'b-cta', 'b-related', 'b-pager', 'b-back', 'f-inner'
   ].forEach((c) => contains(h, c, 'classe de production « ' + c + ' »'));
   contains(h, '<meta name="robots" content="index, follow">', 'robots production');
   contains(h, 'property="og:image" content="https://menuscan.space/blog/images/', 'og:image du site');

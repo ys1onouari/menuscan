@@ -533,23 +533,35 @@ var LABELS = {
     es: 'Blog',
     ar: 'المدونة'
   },
-  FOOTER_ARIA: {
-    fr: 'Liens de pied de page',
-    en: 'Footer links',
-    es: 'Enlaces del pie de página',
-    ar: 'روابط التذييل'
-  },
-  FOOTER_HOME: {
-    fr: 'Accueil',
-    en: 'Home',
-    es: 'Inicio',
-    ar: 'الصفحة الرئيسية'
+  FOOTER_BLOG: {
+    fr: 'Blog',
+    en: 'Blog',
+    es: 'Blog',
+    ar: 'المدونة'
   },
   FOOTER_CONTACT: {
     fr: 'Contact',
     en: 'Contact',
     es: 'Contacto',
     ar: 'اتصل بنا'
+  },
+  FOOTER_INSTAGRAM: {
+    fr: 'Instagram',
+    en: 'Instagram',
+    es: 'Instagram',
+    ar: 'إنستغرام'
+  },
+  FOOTER_COPYRIGHT: {
+    fr: '© 2026 Menu Scan · Tous droits réservés. | Designed & Developed by ',
+    en: '© 2026 Menu Scan · All rights reserved. | Designed & Developed by ',
+    es: '© 2026 Menu Scan · Todos los derechos reservados. | Diseñado y desarrollado por ',
+    ar: '© 2026 Menu Scan · جميع الحقوق محفوظة. | تصميم وتطوير '
+  },
+  FOOTER_CREDIT: {
+    fr: 'AKKOUS',
+    en: 'AKKOUS',
+    es: 'AKKOUS',
+    ar: 'AKKOUS'
   },
   TOC_HEADING: {
     fr: 'Sommaire',

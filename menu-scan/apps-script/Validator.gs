@@ -14,9 +14,14 @@
  */
 
 /**
- * Placeholders attendus du gabarit : les 35 emplacements réels de
+ * Placeholders attendus du gabarit : les 37 emplacements réels de
  * `public/blog/template-article.html`. La liste est le contrat de rendu — un
  * gabarit qui perd un emplacement est refusé, pas complété par un repli muet.
+ *
+ * Pied de page : le footer de `index.html` (référence visuelle et structurelle)
+ * n'a ni `<nav aria-label>` ni lien « Accueil » — ce sont les deux emplacements
+ * de l'ancien footer, supprimés avec lui. `FOOTER_CONTACT` est conservé : le
+ * lien Contact existe toujours, aux côtés de Blog et Instagram.
  */
 var REQUIRED_PLACEHOLDERS = [
   // Document + SEO
@@ -32,7 +37,8 @@ var REQUIRED_PLACEHOLDERS = [
   'ARTICLE_BODY', 'FAQ_SECTION', 'CTA_BLOCK', 'RELATED_ARTICLES',
   // Pagination + pied de page
   'PAGER_ARIA', 'PREV_LINK', 'NEXT_LINK',
-  'FOOTER_ARIA', 'FOOTER_HOME', 'FOOTER_CONTACT'
+  'FOOTER_BLOG', 'FOOTER_CONTACT', 'FOOTER_INSTAGRAM',
+  'FOOTER_COPYRIGHT', 'FOOTER_CREDIT'
 ];
 
 /**
