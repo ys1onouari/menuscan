@@ -166,6 +166,25 @@
   <div class="ldr-bar"><div class="ldr-fill"></div></div>
 </header>
 
+<!-- Filet de securite : le loader ne doit jamais survivre a son propre script.
+     Inline et sans dependance, il s'execute meme si /assets/index-*.js echoue
+     (404, MIME invalide, hors ligne) — les echecs de <script type="module">
+     ne remontent pas window.onerror, la page resterait bloquee sans trace.
+     loader.js reprend la main quand le bundle est charge ; les deux chemins
+     sont idempotents. -->
+<script>
+(function () {
+  function hideLoader() {
+    var el = document.getElementById('loader');
+    if (!el) return;
+    el.classList.add('hidden');
+    el.addEventListener('transitionend', function () { el.remove(); }, { once: true });
+    setTimeout(function () { el.remove(); }, 1500);
+  }
+  setTimeout(hideLoader, 2500);
+})();
+</script>
+
 <nav id="navbar" data-i18n-aria-label="nav.aria">
   <div class="nav-inner">
     <a href="/" class="logo" data-i18n-aria-label="nav.ariaHome">

@@ -35,9 +35,17 @@ export async function initI18n() {
   const resources = { fr: { translation: fr } };
 
   if (initial !== 'fr' && localeLoaders[initial]) {
-    const mod = await localeLoaders[initial]();
-    resources[initial] = { translation: mod.default };
-    loaded.add(initial);
+    try {
+      const mod = await localeLoaders[initial]();
+      if (mod && mod.default) {
+        resources[initial] = { translation: mod.default };
+        loaded.add(initial);
+      } else {
+        console.error(`[MenuScan] locale "${initial}" sans export par defaut, repli sur fr`);
+      }
+    } catch (e) {
+      console.error(`[MenuScan] locale "${initial}" indisponible, repli sur fr:`, e);
+    }
   }
 
   await i18next.use(LanguageDetector).init({

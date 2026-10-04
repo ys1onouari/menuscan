@@ -1,4 +1,4 @@
-import { initI18n, translatePage } from './i18n.js';
+import { initI18n } from './i18n.js';
 import { initLanguageSwitcher } from './language-switcher.js';
 import { initLoader } from './loader.js';
 import { initNavbar } from './navbar.js';
@@ -14,38 +14,41 @@ function log(step) {
   console.log(`[MenuScan] Init ${step}`);
 }
 
+const I18N_TIMEOUT = 3000;
+
+function run(step, init) {
+  try {
+    init();
+    log(step);
+  } catch (e) {
+    console.error(`[MenuScan] ${step} failed, continuing:`, e);
+  }
+}
+
 document.addEventListener('DOMContentLoaded', async () => {
   log('DOMContentLoaded');
 
-  initLoader();
-  log('loader');
+  run('loader', initLoader);
 
   try {
-    await initI18n();
+    await Promise.race([
+      initI18n(),
+      new Promise((_, reject) => setTimeout(() => reject(new Error(`i18n init timeout after ${I18N_TIMEOUT}ms`)), I18N_TIMEOUT)),
+    ]);
   } catch (e) {
-    console.error('[MenuScan] i18n init error:', e);
-    translatePage();
+    console.error('[MenuScan] i18n init error, page kept in static French:', e);
   }
 
   log('i18n + translate');
-  initLanguageSwitcher();
-  log('language-switcher');
-  initNavbar();
-  log('navbar');
-  initParticles();
-  log('particles');
-  initPhoneTilt();
-  log('phone-tilt');
-  initScrambleText();
-  log('scramble-text');
-  initFaq();
-  log('faq');
-  initScrollReveal();
-  log('scroll-reveal');
-  initSmoothScroll();
-  log('smooth-scroll');
-  initMagneticButtons();
-  log('magnetic-buttons');
+  run('language-switcher', initLanguageSwitcher);
+  run('navbar', initNavbar);
+  run('particles', initParticles);
+  run('phone-tilt', initPhoneTilt);
+  run('scramble-text', initScrambleText);
+  run('faq', initFaq);
+  run('scroll-reveal', initScrollReveal);
+  run('smooth-scroll', initSmoothScroll);
+  run('magnetic-buttons', initMagneticButtons);
 
   log('all modules initialized');
 });
