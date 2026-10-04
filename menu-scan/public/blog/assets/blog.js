@@ -215,10 +215,49 @@
       },
       home: { fr: 'Accueil', en: 'Home', es: 'Inicio', ar: 'الصفحة الرئيسية' },
       contact: { fr: 'Contact', en: 'Contact', es: 'Contacto', ar: 'اتصل بنا' }
+    },
+
+    footer: {
+      blog: {
+        fr: 'Blog',
+        en: 'Blog',
+        es: 'Blog',
+        ar: 'المدونة',
+      },
+      contact: {
+        fr: 'Contact',
+        en: 'Contact',
+        es: 'Contacto',
+        ar: 'اتصل بنا',
+      },
+      instagram: {
+        fr: 'Instagram',
+        en: 'Instagram',
+        es: 'Instagram',
+        ar: 'إنستغرام',
+      },
+      copyright: {
+        fr: '© 2026 Menu Scan · Tous droits réservés. | Designed & Developed by ',
+        en: '© 2026 Menu Scan · All rights reserved. | Designed & Developed by ',
+        es: '© 2026 Menu Scan · Todos los derechos reservados. | Diseñado y desarrollado por ',
+        ar: '© 2026 Menu Scan · جميع الحقوق محفوظة. | تصميم وتطوير ',
+      },
+      copyrightLinkText: {
+        fr: 'AKKOUS',
+        en: 'AKKOUS',
+        es: 'AKKOUS',
+        ar: 'AKKOUS',
+      },
+      waMessage: {
+        fr: 'Bonjour! Je souhaite commander Menu Scan (menu digital QR Code) à 500 DH.',
+        en: 'Hello! I’d like to order Menu Scan (digital QR Code menu) for 500 MAD.',
+        es: '¡Hola! Me gustaría solicitar Menu Scan (menú digital con código QR) por 500 MAD.',
+        ar: 'مرحبًا! أود طلب Menu Scan (قائمة رقمية برمز QR) بسعر 500 درهم.',
+      }
     }
   };
 
-  /** Résout une clé namespacée « blog.… » ; renvoie undefined si elle est inconnue. */
+  /** Résout une clé namespacée « blog.… » ou « footer.… » ; renvoie undefined si elle est inconnue. */
   function shell(key, lang) {
     var ns = key.slice(0, key.indexOf('.'));
     var name = key.slice(key.indexOf('.') + 1);
@@ -241,6 +280,17 @@
     for (var a = 0; a < labels.length; a++) {
       var label = shell(labels[a].getAttribute('data-i18n-aria-label'), lang);
       if (label !== undefined) labels[a].setAttribute('aria-label', label);
+    }
+
+    /* Même algorithme que updateWhatsAppLinks() de src/scripts/i18n.js : le
+       message pré-rempli est ajouté à tous les liens wa.me. */
+    var waMsg = encodeURIComponent(t(SHELL.footer.waMessage, lang));
+    var waLinks = document.querySelectorAll('a[href^="https://wa.me/"]');
+    for (var w = 0; w < waLinks.length; w++) {
+      var waHref = waLinks[w].getAttribute('href');
+      if (!waHref) continue;
+      var waNum = waHref.match(/wa\.me\/(\d+)/);
+      waLinks[w].setAttribute('href', 'https://wa.me/' + (waNum ? waNum[1] : '212630230803') + (waMsg ? '?text=' + waMsg : ''));
     }
   }
 

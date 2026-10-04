@@ -121,43 +121,28 @@ a:focus-visible,button:focus-visible,[tabindex]:focus-visible{
 
 .b-main{padding:56px 0 8px}
 
-/* Pied de page — mêmes effets que `footer` / `.f-*` de src/styles/layout.css :
-   liseré rouge en dégradé, logo, soulignement animé des liens. */
-.b-foot{
-  margin-top:64px;background:#070707;position:relative;
-  border-top:1px solid var(--border);padding:40px 32px
-}
-.b-foot::before{
+/** Footer (identique au site principal) **/
+footer{background:#070707;border-top:1px solid var(--border);padding:40px 32px;position:relative}
+footer::before{
   content:'';position:absolute;top:-1px;left:0;right:0;height:1px;
   background:linear-gradient(90deg,transparent,rgba(220,38,38,.3),transparent)
 }
-.b-foot .b-wrap{
-  max-width:1200px;display:flex;justify-content:space-between;
-  align-items:center;flex-wrap:wrap;gap:16px;
-  font-size:.85rem;color:var(--dim)
-}
-.b-foot-logo{
-  font-weight:800;color:white;font-size:1rem;
-  display:flex;align-items:center;gap:10px;letter-spacing:-.02em
-}
-.b-foot-logo-icon{
-  width:28px;height:28px;background:var(--red);border-radius:8px;
-  display:flex;align-items:center;justify-content:center;
-  box-shadow:0 0 15px rgba(220,38,38,.3)
-}
-.b-foot-logo-icon svg{width:16px;height:16px;color:white}
-.b-foot-links{display:flex;gap:24px;margin-inline-start:auto}
-.b-foot-links a{
-  color:var(--dim);text-decoration:none;font-weight:500;position:relative;
-  transition:color .3s ease
-}
-.b-foot-links a::after{
-  content:'';position:absolute;bottom:-2px;inset-inline-start:0;width:0;height:1px;
-  background:var(--red);transition:width .3s ease
-}
-.b-foot-links a:hover{color:white}
-.b-foot-links a:hover::after{width:100%}
-.b-foot-copy{color:var(--dim);font-size:.875rem}
+/* Neutralise le `body{line-height:1.6}` de cette feuille : sur index.html le
+   footer hérite de `line-height:normal`. Sans cela les boîtes de ligne des
+   liens (`::after` du soulignement) ne tombent pas au même endroit. */
+footer{line-height:normal}
+.f-inner{max-width:1200px;margin:0 auto;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:16px;font-size:.85rem;color:var(--dim)}
+.f-logo{font-weight:800;color:white;font-size:1rem;display:flex;align-items:center;gap:10px;letter-spacing:-.02em}
+.f-logo-icon{width:28px;height:28px;background:var(--red);border-radius:8px;display:flex;align-items:center;justify-content:center;box-shadow:0 0 15px rgba(220,38,38,.3)}
+.f-links{display:flex;gap:24px}
+.f-links a{color:var(--dim);text-decoration:none;transition:color .3s ease;font-weight:500;position:relative}
+.f-links a::after{content:'';position:absolute;bottom:-2px;left:0;width:0;height:1px;background:var(--red);transition:width .3s ease}
+.f-links a:hover{color:white}
+.f-links a:hover::after{width:100%}
+.f-credit{color:var(--red);transition:color .3s ease}
+.f-credit:hover{color:var(--red-h)}
+.f-credit:active{color:var(--red-h)}
+
 
 /* --------------------------------------------------------------------------
    Hub
@@ -376,14 +361,21 @@ a:focus-visible,button:focus-visible,[tabindex]:focus-visible{
   .b-logo{font-size:1rem;gap:8px}
   .b-logo-icon{width:30px;height:30px;border-radius:8px}
   .b-logo-icon svg{width:16px;height:16px}
-  .b-lang-btn{padding:4px 6px;font-size:.65rem;min-width:28px;text-align:center}
+.b-lang-btn{padding:4px 6px;font-size:.65rem;min-width:28px;text-align:center}
   .b-main{padding:36px 0 8px}
   .b-article{padding:32px 0 0}
   .b-list{grid-template-columns:1fr}
-  .b-foot{padding:28px 16px}
-  .b-foot .b-wrap{flex-direction:column;align-items:flex-start;gap:16px}
-  .b-foot-links{margin-inline-start:0;flex-wrap:wrap}
-  .b-card:hover{transform:none}
+  .f-inner{flex-direction:column;text-align:center}
+  .f-links{flex-wrap:wrap;justify-content:center}
+  
+    .b-card:hover{transform:none}
+}
+
+/* Le resserrement du footer (padding + corps de texte) est déclenché à 480px
+   sur index.html, pas à 768px — cf. src/styles/responsive.css. */
+@media (max-width:480px){
+  footer{padding:28px 16px}
+  .f-inner{font-size:.78rem;gap:12px}
 }
 
 @media (prefers-reduced-motion: reduce){
@@ -394,3 +386,5 @@ a:focus-visible,button:focus-visible,[tabindex]:focus-visible{
     scroll-behavior:auto !important
   }
 }
+
+
