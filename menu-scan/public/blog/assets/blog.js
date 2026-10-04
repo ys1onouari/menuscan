@@ -35,8 +35,10 @@
     'guides-prix': { fr: 'Guides & prix', en: 'Guides & pricing', es: 'Guías y precios', ar: 'أدلة وأسعار' }
   };
 
-  /* Les 6 catégories, dans l'ordre du site. Un slug absent de cette liste
-     n'est jamais rendu : le filtre est strict dans les deux sens. */
+  /* Les 6 catégories du site, dans leur ordre d'affichage. Cette liste n'est
+     PLUS une liste fermée : elle sert uniquement à ordonner les catégories
+     connues. Une catégorie créée dans la feuille Articles et publiée sans
+     redeploiement reste affichée (valeur brute), avec son propre filtre. */
   var CATEGORY_ORDER = [
     'menu-digital',
     'qr-code',
@@ -45,6 +47,10 @@
     'commerces',
     'guides-prix'
   ];
+
+  /* Bucket « aucune catégorie » : même convention que le moteur
+     (APP.FALLBACK_CATEGORY dans apps-script/Config.gs). */
+  var FALLBACK_CATEGORY = 'sans-categorie';
 
   var UI = {
     all: { fr: 'Tous', en: 'All', es: 'Todos', ar: 'الكل' },
@@ -307,6 +313,33 @@
   /* Données                                                                  */
   /* ---------------------------------------------------------------------- */
 
+  /**
+   * Slug de catégorie : minuscules, espaces → tirets, caractères dangereux
+   * retirés. MÊME règle que `normalizeCategorySlug()` du moteur
+   * (apps-script/Config.gs) : les deux doivent produire la même chaîne.
+   * TOUTES les lettres sont conservées quel que soit le script (latines
+   * accentuées, arabes, chinoises…) : une catégorie hors liste reste lisible.
+   * Une catégorie vide devient le bucket `FALLBACK_CATEGORY` — l'article reste
+   * affiché et filtrable au lieu de disparaître.
+   * Fonction PUR.
+   */
+  function categorySlug(value) {
+    var raw = String(value === null || value === undefined ? '' : value).trim();
+    if (!raw) return FALLBACK_CATEGORY;
+    return raw
+      .toLowerCase()
+      .replace(/[\s_]+/g, '-')
+      .replace(/[^\p{L}\p{N}-]+/gu, '')
+      .replace(/^-+|-+$/g, '')
+      .slice(0, 80) || FALLBACK_CATEGORY;
+  }
+
+  /** Libellé d'une catégorie : traduction si elle existe, valeur brute sinon. */
+  function categoryLabel(slug, lang) {
+    var known = CATEGORY_LABELS[slug];
+    return known ? t(known, lang) : slug;
+  }
+
   /** Ne conserve que les entrées exploitables. Toute entrée incomplète est ignorée. */
   function sanitize(entries) {
     if (!Array.isArray(entries)) return [];
@@ -315,7 +348,10 @@
       var a = entries[i] || {};
       if (!a.lang || LANGS.indexOf(a.lang) === -1) continue;
       if (!a.slug || !a.url || !a.title) continue;
-      if (CATEGORY_ORDER.indexOf(a.category) === -1) continue;
+      /* La catégorie n'est PLUS filtrante : elle est normalisée, jamais
+         écartée. Une catégorie inconnue reste donc visible dans le hub. */
+      if (!a.category) a = Object.assign({}, a, { category: FALLBACK_CATEGORY });
+      else a = Object.assign({}, a, { category: categorySlug(a.category) });
       if (!/^\d{4}-\d{2}-\d{2}$/.test(String(a.date || ''))) continue;
       out.push(a);
     }
@@ -350,7 +386,7 @@
 
     return '<li class="b-card">' + img +
       '<div class="b-card-body">' +
-      '<div class="b-card-cat">' + esc(t(CATEGORY_LABELS[article.category], lang)) + '</div>' +
+      '<div class="b-card-cat">' + esc(categoryLabel(article.category, lang)) + '</div>' +
       '<h2><a href="' + esc(article.url) + '">' + esc(article.title) + '</a></h2>' +
       (article.excerpt ? '<p>' + esc(article.excerpt) + '</p>' : '') +
       metaHtml +
@@ -370,20 +406,26 @@
       return a.lang === lang;
     });
 
-    /* Filtres : « Tous » + les catégories qui ont au moins un article dans la
-       langue active. Une catégorie vide ne propose rien à filtrer. */
+    /* Filtres : « Tous » + les catégories RÉELLEMENT présentes dans la langue
+       active, dans un ordre DÉTERMINISTE : les catégories du site d'abord
+       (CATEGORY_ORDER), puis les catégories créées ensuite, par ordre
+       alphabétique. Une catégorie vide n'a rien à filtrer. */
     var present = [];
-    CATEGORY_ORDER.forEach(function (slug) {
-      for (var i = 0; i < forLang.length; i++) {
-        if (forLang[i].category === slug) { present.push(slug); break; }
-      }
+    for (var i = 0; i < forLang.length; i++) {
+      if (present.indexOf(forLang[i].category) === -1) present.push(forLang[i].category);
+    }
+    var known = [];
+    var extra = [];
+    present.forEach(function (slug) {
+      (CATEGORY_ORDER.indexOf(slug) === -1 ? extra : known).push(slug);
     });
+    present = known.concat(extra.sort());
 
     var chips = ['<button type="button" class="b-filter" data-cat="" aria-pressed="' +
       (category ? 'false' : 'true') + '">' + esc(t(UI.all, lang)) + '</button>'];
     present.forEach(function (slug) {
       chips.push('<button type="button" class="b-filter" data-cat="' + esc(slug) + '" aria-pressed="' +
-        (category === slug ? 'true' : 'false') + '">' + esc(t(CATEGORY_LABELS[slug], lang)) + '</button>');
+        (category === slug ? 'true' : 'false') + '">' + esc(categoryLabel(slug, lang)) + '</button>');
     });
     filtersEl.innerHTML = chips.join('');
 

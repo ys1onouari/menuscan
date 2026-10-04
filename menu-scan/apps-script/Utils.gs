@@ -69,6 +69,12 @@ var APP = {
   DEFAULT_LANG: 'fr',
   RTL_LANGS: ['ar'],
 
+  /**
+   * Bucket « aucune catégorie », utilisé quand la colonne CATEGORY est vide.
+   * C'est un slug comme un autre : l'article reste publié, indexé et filtrable.
+   */
+  FALLBACK_CATEGORY: 'sans-categorie',
+
   /** Profondeur du dossier d'un article : /blog/{lang}/{slug}.html → 1 niveau. */
   ARTICLE_DEPTH_PREFIX: '../',
 
@@ -215,6 +221,47 @@ function toIsoDate(date) {
 /** '14 juillet 2026' depuis 'YYYY-MM-DD'. Renvoie '' si l'entrée est invalide. */
 function frenchDate(iso) {
   return formatDate(iso, 'fr');
+}
+
+/**
+ * 'YYYY-MM-DD' depuis TOUTE forme de date de la feuille `Articles`.
+ *
+ * La colonne PUBLISHED_AT contient trois formes réellement rencontrées :
+ *   - une VRAIE date Google Sheets (objet `Date`) quand la cellule est formatée
+ *     en date ;
+ *   - une chaîne ISO 'YYYY-MM-DD' saisie à la main ;
+ *   - une chaîne de date JavaScript produite par `String()` — « Sat Oct 03
+ *     2026 22:00:00 GMT+0000 (heure normale d'Europe de l'Ouest) » — qui
+ *     apparaissait dès qu'une lecture convertissait la cellule trop tôt.
+ *
+ * Les trois donnent la MÊME sortie, dans le fuseau CONFIGURÉ : c'est ce qui rend
+ * la publication idempotente et l'index réconciliable quelle que soit la forme
+ * de saisie. Une valeur illisible rend '' et n'INVENTE jamais de date.
+ *
+ * Fonction PUR.
+ *
+ * @param {*} value Date, chaîne ou valeur vide
+ * @return {string} 'YYYY-MM-DD', ou '' si la valeur est absente/illisible
+ */
+function normalizePublishedAt(value) {
+  if (value === null || value === undefined) return '';
+
+  // Vraie date de cellule : formatée directement, sans passer par `String()`.
+  if (Object.prototype.toString.call(value) === '[object Date]') {
+    return isNaN(value.getTime()) ? '' : toIsoDate(value);
+  }
+
+  var raw = String(value).trim();
+  if (!raw) return '';
+  if (/^\d{4}-\d{2}-\d{2}$/.test(raw)) return raw;
+
+  // Saisie française « 14/07/2026 » : `new Date()` la rejette (format ambigu).
+  var fr = /^(\d{1,2})\/(\d{1,2})\/(\d{4})$/.exec(raw);
+  if (fr) return toIsoDate(new Date(Number(fr[3]), Number(fr[2]) - 1, Number(fr[1]), 12, 0, 0));
+
+  // Chaîne de date lisible : réanalysée puis rendue dans le fuseau configuré.
+  var parsed = new Date(raw);
+  return isNaN(parsed.getTime()) ? '' : toIsoDate(parsed);
 }
 
 /**

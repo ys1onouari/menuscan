@@ -885,19 +885,10 @@ function publishedNeighbours(article, published) {
 function relatedFromPublished(article, published, limit) {
   var lang = String(article.lang || '').trim();
   var slug = String(article.slug || '').trim();
-  var category;
-  try {
-    category = resolveCategory(article.CATEGORY, lang).slug;
-  } catch (e) {
-    category = '';
-  }
+  var category = categorySlugOf(article.CATEGORY, lang).slug;
   var neighbours = publishedNeighbours({ lang: lang, slug: slug }, published);
   var sameCategory = neighbours.filter(function (item) {
-    try {
-      return resolveCategory(item.row.CATEGORY, lang).slug === category;
-    } catch (e) {
-      return false;
-    }
+    return categorySlugOf(item.row.CATEGORY, lang).slug === category;
   });
   var pool = sameCategory.length ? sameCategory : neighbours;
   return pool.slice(0, limit || 4);
@@ -1044,16 +1035,28 @@ function renderArticleHtml(article, options) {
   });
 
   /* --- 2. Dates (temps de lecture : donnée éditoriale, jamais calculé) --- */
-  var publishedIso = String(article.PUBLISHED_AT || opts.publishedAt || '').trim();
-  if (!/^\d{4}-\d{2}-\d{2}$/.test(publishedIso)) {
+  // La date est NORMALISÉE avant contrôle : une cellule Sheets qui contient une
+  // vraie date, ou une chaîne de date JavaScript, produit le même 'YYYY-MM-DD'
+  // qu'une saisie manuelle. R3a ne signale plus que l'ILLISIBLE — et il ne
+  // bloque plus la publication d'un article valide.
+  var publishedRaw = String(
+    article.PUBLISHED_AT === null || article.PUBLISHED_AT === undefined || article.PUBLISHED_AT === ''
+      ? (opts.publishedAt || '')
+      : article.PUBLISHED_AT
+  ).trim();
+  var publishedIso = normalizePublishedAt(publishedRaw);
+  if (!publishedIso) {
     errors.push({
       code: 'R3a',
-      message: 'PUBLISHED_AT absent ou invalide : « ' + publishedIso + ' » (attendu YYYY-MM-DD)'
+      message: 'PUBLISHED_AT absent ou illisible : « ' + publishedRaw + ' » (attendu YYYY-MM-DD)'
     });
-    publishedIso = publishedIso || '1970-01-01';
+    publishedIso = '1970-01-01';
   }
-  var modifiedIso = String(article.MODIFIED_AT || opts.modifiedAt || publishedIso).trim();
-  if (!/^\d{4}-\d{2}-\d{2}$/.test(modifiedIso)) modifiedIso = publishedIso;
+  var modifiedIso = normalizePublishedAt(
+    article.MODIFIED_AT === null || article.MODIFIED_AT === undefined || article.MODIFIED_AT === ''
+      ? (opts.modifiedAt || publishedIso)
+      : article.MODIFIED_AT
+  ) || publishedIso;
 
   var reading = normalizeReadingTime(
     String(article.READING_TIME === undefined || article.READING_TIME === null || article.READING_TIME === ''
@@ -1119,7 +1122,9 @@ function renderArticleHtml(article, options) {
   var translationLinks = buildTranslationLinks(identity, published, { newline: newline });
 
   /* --- 6. Table de substitution ------------------------------------------ */
-  var categoryLabel = getCategoryLabelRaw(category.slug, lang);
+  // Traduction si elle existe, VALEUR BRUTE sinon : une catégorie nouvelle est
+  // donc nommée dans la page au lieu de produire un attribut vide.
+  var categoryLabel = categoryLabelOf(category.slug, lang);
   var single = {
     LANG: lang,
     DIR: dirForLang(lang),

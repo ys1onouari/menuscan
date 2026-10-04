@@ -257,16 +257,23 @@ function validateArticle(article) {
   }
   if (!group) group = String(article.SLUG || '').trim();
 
-  // V3 — CATEGORY via table explicite (D2) ; jamais de création automatique.
-  // Le libellé est résolu DANS la langue de l'article.
+  // V3 — CATEGORY. La catégorie est DYNAMIQUE : elle n'est plus un blocage.
+  // Une catégorie connue est résolue via la table explicite (D2) ; une
+  // catégorie nouvelle est conservée telle quelle (slug brut normalisé) et une
+  // cellule vide tombe dans le bucket `sans-categorie`. Dans les deux cas
+  // l'article reste publiable et VISIBLE : un avertissement le signale, une
+  // erreur ferait disparaître l'article du hub pour une simple saisie.
   var category = null;
-  if (!article.CATEGORY) {
-    errors.push({ code: 'V3', message: 'CATEGORY est obligatoire' });
-  } else if (isSupportedLang(lang)) {
-    try {
-      category = resolveCategory(article.CATEGORY, lang);
-    } catch (e) {
-      errors.push({ code: 'V3', message: e.message });
+  if (isSupportedLang(lang)) {
+    category = categorySlugOf(article.CATEGORY, lang);
+    if (!category.known) {
+      warnings.push({
+        code: 'V3',
+        message: category.slug === APP.FALLBACK_CATEGORY
+          ? 'CATEGORY vide : l’article est classé dans « ' + APP.FALLBACK_CATEGORY + ' ».'
+          : 'CATEGORY inconnue (« ' + String(article.CATEGORY).trim() + ' ») : conservée telle ' +
+            'quelle en « ' + category.slug + ' », sans traduction.'
+      });
     }
   }
 

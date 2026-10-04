@@ -113,20 +113,16 @@ function buildArticleListItem(article, options) {
     };
   }
 
+  // Catégorie DYNAMIQUE : le libellé brut de la feuille est affiché tel quel
+  // (le hub traduit le slug séparément), et un slug inconnu n'est pas un refus.
   var categoryName = String(article && article.CATEGORY ? article.CATEGORY : '').trim();
-  var map = getCategoryMap();
-  var categorySlug = String(map[categoryName] === undefined ? '' : map[categoryName]).trim();
-  if (!categorySlug) {
-    return {
-      ok: false,
-      error: 'Catégorie inconnue pour l’index : « ' + categoryName + ' ».'
-    };
-  }
+  var categorySlug = categorySlugOf(categoryName, lang).slug;
 
   var reading = normalizeReadingTime(article.READING_TIME);
   if (reading.error) return { ok: false, error: reading.error };
 
-  var date = frenchDate(String(article.PUBLISHED_AT || '').trim());
+  var iso = normalizePublishedAt(article.PUBLISHED_AT);
+  var date = frenchDate(iso);
   if (!date) {
     return {
       ok: false,
@@ -582,17 +578,16 @@ function articleIndexRow(article) {
     return { ok: false, error: 'SLUG invalide pour articles.json : « ' + slug + ' ».' };
   }
 
-  var categoryName = String(article.CATEGORY || '').trim();
-  var categorySlug = getCategoryMap()[categoryName];
-  if (!categorySlug) {
-    return { ok: false, error: 'Catégorie inconnue pour articles.json : « ' + categoryName + ' ».' };
-  }
+  // Catégorie : dynamique. Un slug inconnu est CONSERVÉ (minuscules, tirets) et
+  // une cellule vide tombe dans `sans-categorie` — jamais un refus, jamais une
+  // suppression silencieuse de l'article.
+  var category = categorySlugOf(article.CATEGORY, lang);
 
   var reading = normalizeReadingTime(article.READING_TIME);
   if (reading.error) return { ok: false, error: reading.error };
 
-  var date = String(article.PUBLISHED_AT || '').trim();
-  if (!/^\d{4}-\d{2}-\d{2}$/.test(date)) {
+  var date = normalizePublishedAt(article.PUBLISHED_AT);
+  if (!date) {
     return {
       ok: false,
       error: 'PUBLISHED_AT illisible pour articles.json : « ' + article.PUBLISHED_AT +
@@ -621,7 +616,7 @@ function articleIndexRow(article) {
       url: sitePath(lang, slug),
       title: String(article.TITLE || '').trim(),
       excerpt: indexCardExcerpt(article),
-      category: String(categorySlug),
+      category: String(category.slug),
       date: date,
       readingTime: parseInt(reading.value, 10),
       image: indexImagePath(article),
@@ -691,7 +686,7 @@ function publishedIndexRows(article, options) {
     if (Object.prototype.hasOwnProperty.call(article, k)) self[k] = article[k];
   }
   self.STATUS = STATUS.PUBLISHED;
-  if (opt.publishedAt) self.PUBLISHED_AT = String(opt.publishedAt).trim();
+  if (opt.publishedAt) self.PUBLISHED_AT = normalizePublishedAt(opt.publishedAt) || String(opt.publishedAt).trim();
 
   var id = String(article && article.ID !== null && article.ID !== undefined ? article.ID : '').trim();
   var lang = String(article && article.LANG ? article.LANG : '').trim();
@@ -727,24 +722,28 @@ function publishedIndexRows(article, options) {
  * servent qu'à rendre le tri TOTAL (deux lignes ne peuvent pas partager
  * LANG+SLUG, mais rien ne l'interdit dans la feuille).
  *
- * Une seule ligne inexploitable fait ÉCHOUER la construction : régénérer un
- * index amputé d'un article publié serait pire que de le laisser en retard.
+ * Une ligne inexploitable est ISOLÉE, pas bloquante : elle est écartée de
+ * l'index et nommée dans `warnings`. C'est ce qui permet à un article VALIDÉ de
+ * rester visible quand une ligne ancienne (date illisible, image absente) est
+ * encore présente dans la feuille — le défaut qui rendait le hub vide. L'échec
+ * global ne subsiste que si AUCUNE ligne n'est exploitable : un index vide
+ * alors que des articles sont publiés serait un autre silence.
  *
  * @param {Array<Object>} rows
  * @param {string} generatedAt horodatage ISO de génération
- * @return {{ok:boolean, json?:string, count?:number, error?:string}}
+ * @return {{ok:boolean, json?:string, count?:number, warnings?:Array<string>, error?:string}}
  */
 function buildArticlesIndexJson(rows, generatedAt) {
   var stamp = String(generatedAt || '').trim();
   if (!stamp) return { ok: false, error: 'articles.json : horodatage de génération absent.' };
 
   var entries = [];
-  var errors = [];
+  var skipped = [];
   (Array.isArray(rows) ? rows : []).forEach(function (row) {
     if (!isPublishable(row)) return;
     var built = articleIndexRow(row);
     if (!built.ok) {
-      errors.push((row && row.SLUG ? row.SLUG + ' : ' : '') + built.error);
+      skipped.push((row && row.SLUG ? row.SLUG + ' : ' : '') + built.error);
       return;
     }
     entries.push({
@@ -754,8 +753,17 @@ function buildArticlesIndexJson(rows, generatedAt) {
     });
   });
 
-  if (errors.length) {
-    return { ok: false, error: 'articles.json : ' + errors.length + ' ligne(s) inexploitable(s) — ' + errors.join(' | ') };
+  var warnings = skipped.map(function (reason) {
+    return 'articles.json : ligne écartée — ' + reason;
+  });
+
+  var publishableCount = (Array.isArray(rows) ? rows : []).filter(isPublishable).length;
+  if (publishableCount && !entries.length) {
+    return {
+      ok: false,
+      error: 'articles.json : aucune des ' + publishableCount +
+        ' ligne(s) publiée(s) n’est exploitable — ' + skipped.join(' | ')
+    };
   }
 
   entries.sort(function (a, b) {
@@ -774,7 +782,12 @@ function buildArticlesIndexJson(rows, generatedAt) {
     generatedAt: stamp,
     articles: entries.map(function (e) { return e.entry; })
   };
-  return { ok: true, json: JSON.stringify(payload, null, 2) + '\n', count: payload.articles.length };
+  return {
+    ok: true,
+    json: JSON.stringify(payload, null, 2) + '\n',
+    count: payload.articles.length,
+    warnings: warnings
+  };
 }
 
 /**
@@ -816,6 +829,58 @@ function articlesIndexStamp(rows, now, existingText) {
   }
   var kept = current.generatedAt.trim();
   return kept || fallback;
+}
+
+/**
+ * Contrôle de PRÉSENCE d'un article dans le contenu d'`articles.json`.
+ *
+ * Fonction PUR. Répond à la seule question qui compte pour l'opérateur : après
+ * la publication, l'article est-il RÉELLEMENT listé dans l'index que le hub lit ?
+ * L'écriture peut avoir réussi et l'entrée manquer quand même (ligne écartée,
+ * mauvais `lang`, régression de schéma) : sans cette relecture, le succès
+ * serait silencieusement faux.
+ *
+ * @param {string} text contenu d'`articles.json` relu
+ * @param {{lang:string, slug:string, date?:string, category?:string}} entry
+ * @return {{ok:boolean, entry:Object|null, reason:string}}
+ */
+function verifyArticleIndexEntry(text, entry) {
+  var want = entry || {};
+  var parsed = parseJsonSafe(text);
+  if (!parsed || !Array.isArray(parsed.articles)) {
+    return { ok: false, entry: null, reason: 'articles.json illisible ou sans liste d’articles.' };
+  }
+
+  var found = null;
+  for (var i = 0; i < parsed.articles.length; i++) {
+    var candidate = parsed.articles[i] || {};
+    if (String(candidate.lang || '').trim() === String(want.lang || '').trim() &&
+      String(candidate.slug || '').trim() === String(want.slug || '').trim()) {
+      found = candidate;
+      break;
+    }
+  }
+  if (!found) {
+    return {
+      ok: false,
+      entry: null,
+      reason: 'aucune entrée « ' + (want.lang || '') + '/' + (want.slug || '') + ' » dans articles.json.'
+    };
+  }
+
+  if (want.date && String(found.date || '').trim() !== String(want.date).trim()) {
+    return {
+      ok: false, entry: found,
+      reason: 'date indexée « ' + found.date + ' » au lieu de « ' + want.date + ' ».'
+    };
+  }
+  if (want.category && String(found.category || '').trim() !== String(want.category).trim()) {
+    return {
+      ok: false, entry: found,
+      reason: 'catégorie indexée « ' + found.category + ' » au lieu de « ' + want.category + ' ».'
+    };
+  }
+  return { ok: true, entry: found, reason: '' };
 }
 
 /* ------------------------------------------------------------------------ */
@@ -935,9 +1000,12 @@ function updateIndexesForArticle(article, options) {
   for (var k in article) {
     if (Object.prototype.hasOwnProperty.call(article, k)) resolved[k] = article[k];
   }
-  if (opt.publishedAt && !String(resolved.PUBLISHED_AT || '').trim()) {
-    resolved.PUBLISHED_AT = String(opt.publishedAt).trim();
+  if (opt.publishedAt && !normalizePublishedAt(resolved.PUBLISHED_AT)) {
+    resolved.PUBLISHED_AT = normalizePublishedAt(opt.publishedAt) || String(opt.publishedAt).trim();
   }
+  // Date ISO unique, utilisée par le sitemap, articles.json et la vérification :
+  // une seule normalisation évite qu'un `Date` de cellule parte en « Sat Oct 03… ».
+  var resolvedIso = normalizePublishedAt(resolved.PUBLISHED_AT);
 
   // Vérité des lignes PUBLIÉES, lue UNE fois pour le sitemap (alternates) et
   // pour articles.json. Elle est consultée APRÈS l'écriture de l'article mais
@@ -1042,7 +1110,10 @@ function updateIndexesForArticle(article, options) {
       var stamp = articlesIndexStamp(rows.rows, nowIso(), current);
       var built = buildArticlesIndexJson(rows.rows, stamp);
       if (!built.ok) return { ok: false, error: built.error };
-      return { ok: true, html: built.json, changed: current !== built.json, count: built.count };
+      return {
+        ok: true, html: built.json, changed: current !== built.json,
+        count: built.count, warnings: built.warnings
+      };
     }, 'articles.json : ' + (resolved.SLUG || ''));
     if (!jsonWrite.ok) throw new Error(jsonWrite.error);
 
@@ -1052,9 +1123,42 @@ function updateIndexesForArticle(article, options) {
       changed: jsonWrite.changed,
       sha: jsonWrite.sha,
       retried: jsonWrite.retried,
-      count: jsonWrite.staged.count
+      count: jsonWrite.staged.count,
+      verified: false
     };
     if (jsonWrite.changed) report.writes += 1;
+
+    // Lignes écartées de l'index : signalées, jamais silencieuses.
+    (jsonWrite.staged.warnings || []).forEach(function (message) {
+      warnings.push({ code: 'IX4w', message: message });
+    });
+
+    /**
+     * RELECTURE DE VÉRIFICATION : le fichier écrit est relu sur GitHub et
+     * contrôlé. C'est le seul moyen de savoir que l'article est RÉELLEMENT
+     * visible dans le hub — une écriture réussie peut produire un index
+     * amputé si la ligne a été écartée, et le succès serait alors faux.
+     */
+    var reread = getFile(APP.ARTICLES_INDEX_PATH);
+    var verified = verifyArticleIndexEntry(reread ? reread.content : '', {
+      lang: String(resolved.LANG || '').trim(),
+      slug: String(resolved.SLUG || '').trim(),
+      date: resolvedIso,
+      category: categorySlugOf(resolved.CATEGORY, String(resolved.LANG || '').trim()).slug
+    });
+    report.articlesIndex.verified = verified.ok;
+    if (verified.ok) {
+      var rereadJson = parseJsonSafe(reread.content);
+      report.articlesIndex.count = Array.isArray(rereadJson.articles) ? rereadJson.articles.length : 0;
+    } else {
+      report.ok = false;
+      report.indexed = false;
+      report.articlesIndex.action = 'unverified';
+      warnings.push({
+        code: 'IX4v',
+        message: 'articles.json : article publié NON retrouvé dans l’index relu — ' + verified.reason
+      });
+    }
   } catch (e) {
     report.ok = false;
     report.indexed = false;
@@ -1075,7 +1179,7 @@ function updateIndexesForArticle(article, options) {
     // Le hub `/blog/` est une page à part entière du sitemap : on le garantit
     // à chaque publication, y compris quand l'entrée de l'article existait
     // déjà (donc aucune écriture de sitemap par ailleurs). Idempotent.
-    var hubDate = indexGeneratedDate(resolved.PUBLISHED_AT);
+    var hubDate = indexGeneratedDate(resolvedIso);
 
     // Tout le patch est REFAIT sur l'état distant courant : insertion, réciprocité
     // des alternates du groupe, puis garantie du hub. Un conflit de SHA rejoue
@@ -1084,7 +1188,7 @@ function updateIndexesForArticle(article, options) {
       // Jamais de CRÉATION : un sitemap manquant est une panne de configuration
       // du dépôt, pas un index à réconcilier.
       if (!current) return { ok: false, error: 'Sitemap absent du dépôt : ' + APP.SITEMAP_PATH };
-      var patched = insertIntoSitemap(current, loc, resolved.PUBLISHED_AT, alternates);
+      var patched = insertIntoSitemap(current, loc, resolvedIso, alternates);
       if (!patched.ok) return { ok: false, error: patched.error };
 
       // RÉCIPROCITÉ : ajouter l'entrée d'une nouvelle traduction ne suffit pas,

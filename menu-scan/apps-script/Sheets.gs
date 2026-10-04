@@ -237,9 +237,13 @@ function applyArticleDropdowns(sheet) {
     }
     try {
       var values = ARTICLE_DROPDOWNS[column]();
+      // La catégorie est DYNAMIQUE : la liste reste une aide à la saisie, mais
+      // une valeur hors liste doit être ACCEPTÉE (setAllowInvalid(true)) au lieu
+      // d'être rejetée par la feuille. Les autres colonnes (STATUT, LANG) restent
+      // strictes : une faute y est un blocage de publication.
       var rule = SpreadsheetApp.newDataValidation()
         .requireValueInList(values, true)
-        .setAllowInvalid(false)
+        .setAllowInvalid(column === 'CATEGORY')
         .build();
       sheet.getRange(2, col, rows, 1).setDataValidation(rule);
       report.applied.push(column);
@@ -312,6 +316,15 @@ function readArticles() {
     for (var name in map) {
       if (!Object.prototype.hasOwnProperty.call(map, name)) continue;
       var v = row[map[name] - 1];
+      // Une date de cellule est CONSERVÉE comme objet `Date` : `String()` la
+      // transformait en « Sat Oct 03 2026 22:00:00 GMT+0000 (…) », que plus
+      // aucun contrôle `/^\d{4}-\d{2}-\d{2}$/` ne pouvait lire. La conversion
+      // est faite là où la date est consommée (normalizePublishedAt()).
+      if (Object.prototype.toString.call(v) === '[object Date]' && !isNaN(v.getTime())) {
+        obj[name] = v;
+        any = true;
+        continue;
+      }
       var text = v === null || v === undefined ? '' : String(v).trim();
       obj[name] = text;
       if (text !== '') any = true;

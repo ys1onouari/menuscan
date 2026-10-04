@@ -757,6 +757,74 @@ function isKnownCategory(slug) {
   return CATEGORY_SLUGS.indexOf(String(slug === null ? '' : slug).trim()) !== -1;
 }
 
+/**
+ * Slug de catégorie d'une ligne, SANS jamais échouer.
+ *
+ * Contrepartie de `resolveCategory()`, qui reste STRICT pour la suppression
+ * (garder D5) : ici, une catégorie nouvelle ou une cellule vide ne doit
+ * JAMAIS empêcher un article d'être publié et indexé.
+ *
+ *   - slug connu   → slug de CATEGORY_MAP ;
+ *   - slug inconnu → `normalizeCategorySlug()` de la saisie ;
+ *   - vide         → `FALLBACK_CATEGORY`, un bucket unique et lisible.
+ *
+ * Le libellé suit la même règle : traduction si elle existe, valeur brute
+ * sinon. Une catégorie jamais vue est donc VISIBLE partout (carte, filtre du
+ * hub) au lieu de disparaître silencieusement.
+ *
+ * Fonction PUR.
+ *
+ * @param {*} slug valeur de la colonne CATEGORY
+ * @param {string} [lang] langue du libellé
+ * @return {{slug:string, label:string, known:boolean}}
+ */
+function categorySlugOf(slug, lang) {
+  var raw = String(slug === null || slug === undefined ? '' : slug).trim();
+  if (!raw) {
+    return {
+      slug: APP.FALLBACK_CATEGORY,
+      label: categoryLabelOf(APP.FALLBACK_CATEGORY, lang),
+      known: false
+    };
+  }
+
+  var map = getCategoryMap();
+  if (Object.prototype.hasOwnProperty.call(map, raw)) {
+    var known = map[raw];
+    return { slug: known, label: categoryLabelOf(known, lang), known: true };
+  }
+
+  var normalized = normalizeCategorySlug(raw);
+  if (!normalized) normalized = APP.FALLBACK_CATEGORY;
+  return { slug: normalized, label: categoryLabelOf(normalized, lang), known: false };
+}
+
+/**
+ * Slug d'une catégorie saisie librement, PROCHE de la saisie.
+ *
+ * Minuscules, espaces et tirets bas → tirets, caractères dangereux pour un
+ * attribut HTML ou une URL retirés. TOUTES les lettres sont conservées, quel que
+ * soit le script — latines accentuées, arabes, chinoises… : « Rubrique Fantôme »
+ * et « 写字 » restent lisibles dans le hub au lieu d'être réduits à un slug vide.
+ *
+ * Fonction PUR. '' si rien d'exploitable ne subsiste.
+ */
+function normalizeCategorySlug(value) {
+  return String(value === null || value === undefined ? '' : value)
+    .trim()
+    .toLowerCase()
+    .replace(/[\s_]+/g, '-')
+    .replace(/[^\p{L}\p{N}-]+/gu, '')
+    .replace(/^-+|-+$/g, '')
+    .slice(0, 80);
+}
+
+/** Libellé affiché d'une catégorie, sans échappement. Repli : le slug brut. */
+function categoryLabelOf(slug, lang) {
+  var raw = String(slug === null || slug === undefined ? '' : slug).trim();
+  return getCategoryLabelRaw(raw, lang) || raw;
+}
+
 /** Liste triée des slugs de catégories connus, pour l'UI et le menu déroulant. */
 function listKnownCategories() {
   return CATEGORY_SLUGS.slice().sort();

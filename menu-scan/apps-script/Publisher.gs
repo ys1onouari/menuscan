@@ -193,11 +193,14 @@ function runPublishPipeline(id, opts) {
   article = findArticleById(id);
 
   /**
-   * Date de publication :JJJJ-MM-JJ (format exigé par le moteur, code R3a).
-   * Une date déjà posée est CONSERVÉE : c'est elle qui rend la republication
-   * idempotente (le HTML rendu ne doit pas changer d'un jour à l'autre).
+   * Date de publication : 'YYYY-MM-DD' (format exigé par le moteur, code R3a).
+   * La colonne est NORMALISÉE : une vraie date de cellule, une saisie ISO et
+   * une chaîne de date JavaScript donnent le même résultat, dans le fuseau
+   * configuré. Une date déjà posée est CONSERVÉE : c'est elle qui rend la
+   * republication idempotente (le HTML rendu ne doit pas changer d'un jour à
+   * l'autre).
    */
-  var publishedAt = String(article.PUBLISHED_AT || '').trim() || toIsoDate();
+  var publishedAt = normalizePublishedAt(article.PUBLISHED_AT) || toIsoDate();
 
   /* --- 2. Gabarit (lecture seule, source de vérité = dépôt) ------------- */
   var template = loadArticleTemplate();
@@ -805,7 +808,7 @@ function checkDeletableFields(article) {
       categorySlug: category.slug,
       categoryName: category.name,
       slug: slug,
-      publishedAt: String(article.PUBLISHED_AT || '')
+      publishedAt: normalizePublishedAt(article.PUBLISHED_AT)
     }
   };
 }
@@ -1508,7 +1511,7 @@ function publishResult(overrides) {
     if (!out.githubPath) out.githubPath = out.article.GITHUB_PATH || '';
     if (!out.githubSha) out.githubSha = out.article.GITHUB_SHA || '';
     if (!out.githubCommit) out.githubCommit = out.article.GITHUB_COMMIT || '';
-    if (!out.publishedAt) out.publishedAt = out.article.PUBLISHED_AT || '';
+    if (!out.publishedAt) out.publishedAt = normalizePublishedAt(out.article.PUBLISHED_AT);
   }
   return out;
 }

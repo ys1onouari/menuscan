@@ -79,6 +79,10 @@ function codes(result) {
   return (result.errors || []).map((e) => e.code);
 }
 
+function warningCodes(result) {
+  return (result.warnings || []).map((w) => w.code);
+}
+
 /* -------------------------------------------------------------------------- */
 /* Fixtures                                                                   */
 /* -------------------------------------------------------------------------- */
@@ -200,10 +204,22 @@ test('seul l’arabe est en RTL', () => {
   );
 });
 
-test('catégorie inconnue refusée (aucune création automatique)', () => {
+test('catégorie inconnue CONSERVÉE : le rendu passe, avec un avertissement', () => {
+  // Comportementvolontaire : une catégorie nouvelle ne doit JAMAIS empêcher la
+  // publication (elle disparaissait du hub). Le slug est normalisé, la page est
+  // rendue et l'anomalie est signalée par un avertissement V3.
   const result = render(makeArticle({ CATEGORY: 'categorie-fantome' }));
-  notOk(result.ok, 'rendu');
-  ok(codes(result).indexOf('V3') !== -1, 'code V3 attendu, obtenu ' + JSON.stringify(codes(result)));
+  ok(result.ok, 'rendu accepté : ' + JSON.stringify(result.errors));
+  notOk(warningCodes(result).indexOf('V3') === -1, 'avertissement V3 présent : ' + JSON.stringify(warningCodes(result)));
+  contains(result.html, 'data-category="categorie-fantome"', 'slug conservé dans data-category');
+  contains(result.html, 'content="categorie-fantome"', 'valeur brute affichée (article:section)');
+});
+
+test('catégorie VIDE : le rendu passe et bascule dans « sans-categorie »', () => {
+  const result = render(makeArticle({ CATEGORY: '' }));
+  ok(result.ok, 'rendu accepté : ' + JSON.stringify(result.errors));
+  contains(result.html, 'data-category="sans-categorie"', 'bucket de repli');
+  ok(warningCodes(result).indexOf('V3') !== -1, 'avertissement V3 présent');
 });
 
 /* -------------------------------------------------------------------------- */
@@ -646,7 +662,9 @@ test('règle 4 : le commentaire de gabarit est CONSERVÉ mais reste inerte', () 
 test('règle 5 : retour hub, fil d’Ariane et pied de page intacts', () => {
   const h = renderOk(makeArticle()).html;
   contains(h, '<p><a class="b-back" href="/blog/">', 'retour hub');
-  contains(h, '<p class="b-crumb">\n        <a href="/blog/">Blog</a>', 'fil d’Ariane vers le hub');
+  // Le gabarit est commité en CRLF : la comparaison est faite sur des fins de
+  // ligne normalisées, sinon l'assertion dépend de la convention de checkout.
+  contains(h.replace(/\r\n/g, '\n'), '<p class="b-crumb">\n        <a href="/blog/">Blog</a>', 'fil d’Ariane vers le hub');
   contains(h, '<a class="b-nav-blog" href="/blog/">Blog</a>', 'entrée blog de la navigation');
   contains(h, '<a class="b-btn b-btn-ghost" href="/blog/">Voir tous les articles</a>', 'CTA vers le hub');
   const footer = /<footer[\s\S]*?<\/footer>/.exec(h)[0];
@@ -804,10 +822,17 @@ test('canonical vers une autre URL ⇒ V11', () => {
   ok(v.errors.some((e) => e.code === 'V11'), 'code V11 attendu');
 });
 
-test('PUBLISHED_AT invalide ⇒ R3a', () => {
-  const result = render(makeArticle({ PUBLISHED_AT: '14/07/2026' }));
+test('PUBLISHED_AT illisible ⇒ R3a', () => {
+  const result = render(makeArticle({ PUBLISHED_AT: 'à vérifier' }));
   notOk(result.ok, 'rendu');
   ok(codes(result).indexOf('R3a') !== -1, 'code R3a attendu, obtenu ' + JSON.stringify(codes(result)));
+});
+
+test('PUBLISHED_AT en saisie française 14/07/2026 : normalisée, pas rejetée', () => {
+  const result = render(makeArticle({ PUBLISHED_AT: '14/07/2026' }));
+  ok(result.ok, 'rendu : ' + JSON.stringify(codes(result)));
+  contains(result.html, 'datetime="2026-07-14"', 'date normalisée dans la page');
+  contains(result.html, '"datePublished": "2026-07-14"', 'JSON-LD datePublished');
 });
 
 test('catégorie résolue par table explicite, jamais par slugify', () => {

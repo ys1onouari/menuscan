@@ -570,16 +570,28 @@ test('validation de production : un lien mort dans le corps bloque la publicatio
   eq(status(s.ctx, 'A-1'), 'ERROR', 'statut');
 });
 
-test('catégorie inconnue : ERROR avant tout accès GitHub du fichier', () => {
+test('catégorie inconnue : le rendu passe et la publication va jusqu\'aux index', () => {
+  // Comportementvolontaire : la catégorie est dynamique. Une rubrique saisie à la
+  // main ne doit plus bloquer la publication (l'article disparaissait du hub) ;
+  // elle est normalisée en slug et signalée par un avertissement V3.
+  const articlePath = BLOG_DIR + '/fr/article-de-test.html';
   const s = setup({
     articles: [makeArticle({ CATEGORY: 'Rubrique Fantôme' })],
+    indexes: { includeArticle: false },
     activeCell: { row: 2 },
-    routes: [templateRoute()]
+    routes: publishRoutes(articlePath)
   });
+
   const result = call(s.ctx, 'publishSelectedArticle');
-  notOk(result.ok, 'résultat');
-  eq(result.code, 'RENDER', 'code');
-  includes(row(s.ctx, 'A-1').ERROR, 'V3', 'code V3 (catégorie) reported');
+  ok(result.ok, 'publication aboutie : ' + result.code + ' ' + result.message);
+  eq(result.status, 'PUBLISHED', 'statut');
+  const codes = (result.warnings || []).map((w) => w.code);
+  ok(codes.indexOf('V3') !== -1, 'avertissement V3 : ' + JSON.stringify(codes));
+
+  // Le slug est normalisé (minuscules, tirets) et l'article est bien listé.
+  const entries = jsonArticles(s.fetch);
+  eq(entries.length, 1, 'articles.json contient l\'article');
+  eq(entries[0].category, 'rubrique-fantôme', 'catégorie normalisée (lettres accentuées conservées)');
 });
 
 test('READING_TIME absent : ERROR (le temps de lecture est éditorial, jamais calculé)', () => {
@@ -1521,11 +1533,14 @@ test('T8 : ordre des LECTURES garanti, même quand l\'article est déjà à jour
 
   // L'ordre porte sur les LECTURES : la réconciliation doit relire le hub, puis
   // articles.json, puis le sitemap, dans cet ordre, à chaque publication.
+  // articles.json est relu DEUX fois : une fois pour le patch, une fois pour la
+  // VÉRIFICATION de présence de l'article dans l'index réellement écrit.
   const reads = s.fetch.calls
     .filter((c) => c.method === 'get')
     .map((c) => c.path.replace(/^.*\/contents\//, '').split('?')[0]);
   const indexReads = reads.filter((p) => p === HUB_PATH || p === ARTICLES_JSON || p === SITEMAP_FILE);
-  eqList(indexReads, [HUB_PATH, ARTICLES_JSON, SITEMAP_FILE], 'hub, puis articles.json, puis sitemap');
+  eqList(indexReads, [HUB_PATH, ARTICLES_JSON, ARTICLES_JSON, SITEMAP_FILE],
+    'hub, puis articles.json (écriture), puis articles.json (vérification), puis sitemap');
 
   // L'écriture de l'article précède la PREMIÈRE lecture d'index : sans ça, un
   // échec de réconciliation laisserait un fichier publié hors de tout index.
@@ -1680,6 +1695,257 @@ test('T12 : échec d\'index → article PUBLISHED, ERROR explicite, journal ERRO
   ok(String(errors[0][6]).indexOf(ARTICLE_PATH) !== -1, 'GITHUB_PATH journalisé en colonne 6');
   includes(call(s.ctx, 'formatPublishReport', result), 'NON RÉCONCILIÉ', 'compte rendu explicite');
   includes(call(s.ctx, 'formatPublishReport', result), ARTICLE_PATH, 'chemin de l\'article rappelé');
+});
+
+/* ========================================================================== */
+/* Robustesse de l'indexation : dates héritées, catégories dynamiques          */
+/* ========================================================================== */
+/*
+ * Ces scénarios rejouent le défaut qui rendait le hub `/blog/` VIDE alors que
+ * les pages articles existaient déjà :
+ *   - une colonne PUBLISHED_AT contenant une vraie date de cellule ou une
+ *     chaîne de date JavaScript, illisible pour un contrôle `/^\d{4}-\d{2}-\d{2}$/` ;
+ *   - une seule ligne ancienne inexploitable qui faisait ÉCHOUER la
+ *     reconstruction complète de `articles.json` ;
+ *   - une catégorie hors liste, jusqu'ici refusée à la publication.
+ *
+ * Ils prouvent les trois exigences : la date est normalisée, une ligne
+ * inexploitable est ISOLÉE, et l'article publié est VÉRIFIÉ dans l'index écrit.
+ */
+
+/** Cellule date Google Sheets : la valeur reste un objet `Date`. */
+function sheetDate(year, month, day) {
+  return new Date(Date.UTC(year, month - 1, day, 12, 0, 0));
+}
+
+/** Codes d'avertissement du résultat de publication. */
+function warningCodesOf(result) {
+  return (result.warnings || []).map((w) => w.code);
+}
+
+/** Publication complète d'un article, avec le contexte mocké qui l'a produit. */
+function publishAndInspect(article, options) {
+  const o = options || {};
+  const target = makeArticle(article);
+  const path = BLOG_DIR + '/' + (target.LANG || 'fr') + '/' + target.SLUG + '.html';
+  const s = setup({
+    articles: o.articles || [target],
+    indexes: o.indexes === undefined ? { includeArticle: false } : o.indexes,
+    activeCell: { row: o.activeRow || 2 },
+    routes: publishRoutes(path)
+  });
+  return { s: s, target: target, result: call(s.ctx, 'publishSelectedArticle') };
+}
+
+/** HTML écrit par la publication pour le chemin donné. */
+function writtenHtml(s, path) {
+  const put = articlePuts(s.fetch, '/contents/' + path)[0];
+  return put ? Buffer.from(JSON.parse(put.payload).content, 'base64').toString('utf8') : '';
+}
+
+test('R1 : un article SANS date est publié, indexé et vérifié dans articles.json', () => {
+  const { s, result } = publishAndInspect({ PUBLISHED_AT: '' });
+
+  ok(result.ok, 'publication : ' + result.code + ' ' + result.message);
+  eq(result.code, 'PUBLISHED', 'code');
+  eq(result.status, 'PUBLISHED', 'statut');
+  eq(result.indexed, true, 'index réconcilié');
+
+  // La date du jour est écrite dans la feuille : elle est déterministe.
+  const written = row(s.ctx, 'A-1').PUBLISHED_AT;
+  ok(/^\d{4}-\d{2}-\d{2}$/.test(written), 'PUBLISHED_AT ISO en feuille : ' + written);
+  eq(result.publishedAt, written, 'date du rapport = date de la feuille');
+
+  // SÉQUENCE IMPOSÉE : le fichier article, puis articles.json, puis le sitemap.
+  eqList(putSuffixes(s), [ARTICLE_PATH, ARTICLES_JSON, SITEMAP_FILE], 'ordre exact des écritures');
+
+  // L'entrée EXISTE réellement dans le fichier écrit, avec la bonne date.
+  const entries = jsonArticles(s.fetch);
+  eq(entries.length, 1, 'articles.json contient l\'article');
+  eq(entries[0].slug, 'article-de-test', 'slug');
+  eq(entries[0].lang, 'fr', 'langue');
+  eq(entries[0].date, written, 'date ISO cohérente');
+  eq(entries[0].category, 'guides-prix', 'catégorie');
+  includes(sitemapLocs(s.fetch.file(SITEMAP_FILE)), SITE + hrefOf(makeArticle()), 'sitemap');
+  includes(s.fetch.file(SITEMAP_FILE), '<lastmod>' + written + '</lastmod>', 'lastmod ISO');
+});
+
+test('R2 : une VRAIE date de cellule Google Sheets est normalisée', () => {
+  // `readArticles()` conserve l'objet Date ; le moteur le rend en 'YYYY-MM-DD'.
+  const { s, result } = publishAndInspect({ PUBLISHED_AT: sheetDate(2026, 10, 3) });
+
+  ok(result.ok, 'publication : ' + result.code + ' ' + result.message);
+  eq(result.publishedAt, '2026-10-03', 'date normalisée');
+  eq(row(s.ctx, 'A-1').PUBLISHED_AT, '2026-10-03', 'date ISO en feuille');
+
+  const entries = jsonArticles(s.fetch);
+  eq(entries.length, 1, 'une entrée');
+  eq(entries[0].date, '2026-10-03', 'articles.json : date ISO, jamais « Sat Oct 03 2026 … »');
+  includes(s.fetch.file(SITEMAP_FILE), '<lastmod>2026-10-03</lastmod>', 'sitemap : lastmod ISO');
+
+  // La page HTML porte la même date : <time datetime> et JSON-LD.
+  const html = writtenHtml(s, ARTICLE_PATH);
+  includes(html, 'datetime="2026-10-03"', '<time datetime>');
+  includes(html, '"datePublished": "2026-10-03"', 'JSON-LD datePublished');
+});
+
+test('R3 : une chaîne de date JavaScript héritée est normalisée (même résultat)', () => {
+  // Ce que produisait `String(date)` dans readArticles() avant la correction.
+  const legacy = 'Sat Oct 03 2026 23:00:00 GMT+0200 (heure d\'Europe de Paris)';
+  const { result } = publishAndInspect({ PUBLISHED_AT: legacy });
+
+  ok(result.ok, 'publication : ' + result.code + ' ' + result.message);
+  eq(result.publishedAt, '2026-10-03', 'date normalisée dans le fuseau configuré');
+  notOk(warningCodesOf(result).indexOf('R3a') !== -1, 'aucun avertissement R3a');
+});
+
+test('R4 : normalizePublishedAt est déterministe et n\'invente jamais de date', () => {
+  const { ctx } = createContext({});
+  const iso = call(ctx, 'normalizePublishedAt', '2026-07-14');
+  eq(iso, '2026-07-14', 'chaîne ISO conservée');
+  eq(call(ctx, 'normalizePublishedAt', iso), iso, 'idempotent');
+  eq(call(ctx, 'normalizePublishedAt', '  2026-07-14 '), iso, 'espaces ignorés');
+
+  // Les trois formes d'une même date donnent le même jour.
+  const d = call(ctx, 'normalizePublishedAt', new Date(Date.UTC(2026, 6, 14, 10, 0, 0)));
+  eq(d, '2026-07-14', 'objet Date');
+  eq(call(ctx, 'normalizePublishedAt', new Date(2026, 6, 14, 10, 0, 0).toString()), d,
+    'chaîne JavaScript équivalente');
+  eq(call(ctx, 'normalizePublishedAt', '14/07/2026'), d, 'date française');
+
+  // Une valeur illisible ne devient JAMAIS une date inventée.
+  eq(call(ctx, 'normalizePublishedAt', ''), '', 'vide');
+  eq(call(ctx, 'normalizePublishedAt', '   '), '', 'blanc');
+  eq(call(ctx, 'normalizePublishedAt', 'demain'), '', 'texte non date');
+  eq(call(ctx, 'normalizePublishedAt', null), '', 'null');
+  eq(call(ctx, 'normalizePublishedAt', new Date('nope')), '', 'Date invalide');
+});
+
+test('R5 : une ligne legacy INEXPLOITABLE n\'empêche plus l\'article valide d\'être indexé', () => {
+  // Le cas exact du hub vide : une ligne ancienne illisible faisait échouer
+  // TOUTE la reconstruction d'articles.json.
+  const legacy = makeArticle({
+    ID: 'OLD-1', SLUG: 'ancien-article', STATUS: 'PUBLISHED', TITLE: 'Ancien article',
+    PUBLISHED_AT: 'à vérifier', TRANSLATION_GROUP: 'ancien-article', __seeded: true
+  });
+  const target = makeArticle({ PUBLISHED_AT: '' });
+
+  const { s, result } = publishAndInspect({}, {
+    articles: [legacy, target],
+    activeRow: 3
+  });
+
+  ok(result.ok, 'le nouvel article EST publié : ' + result.code + ' ' + result.message);
+  eq(result.status, 'PUBLISHED', 'statut');
+  eq(result.indexed, true, 'index réconcilié');
+
+  // Le nouvel article est là, la ligne legacy est écartée ET nommée.
+  const entries = jsonArticles(s.fetch);
+  eq(entries.length, 1, 'articles.json : une seule entrée exploitable');
+  eq(entries[0].slug, 'article-de-test', 'le nouvel article, pas l\'ancien');
+  const warned = (result.warnings || []).filter((w) => w.code === 'IX4w');
+  eq(warned.length, 1, 'un avertissement IX4w : ' + JSON.stringify(warningCodesOf(result)));
+  includes(warned[0].message, 'ancien-article', 'la ligne écartée est nommée');
+});
+
+test('R6 : une catégorie INCONNUE est publiée, indexée et affichée sous son slug', () => {
+  const { s, result } = publishAndInspect({ CATEGORY: 'Garage &写字' });
+
+  ok(result.ok, 'publication : ' + result.code + ' ' + result.message);
+  ok(warningCodesOf(result).indexOf('V3') !== -1, 'avertissement V3 : ' + JSON.stringify(warningCodesOf(result)));
+
+  const entries = jsonArticles(s.fetch);
+  eq(entries.length, 1, 'l\'article n\'a pas disparu');
+  eq(entries[0].category, 'garage-写字', 'slug normalisé (lettres conservées)');
+
+  // Le HTML nomme la catégorie : data-category + article:section.
+  const html = writtenHtml(s, ARTICLE_PATH);
+  includes(html, 'data-category="garage-写字"', 'data-category');
+  includes(html, 'property="article:section" content="garage-写字"', 'article:section = valeur brute');
+});
+
+test('R7 : une catégorie VIDE bascule dans « sans-categorie » sans rien bloquer', () => {
+  const { s, result } = publishAndInspect({ CATEGORY: '' });
+
+  ok(result.ok, 'publication : ' + result.code + ' ' + result.message);
+  const entries = jsonArticles(s.fetch);
+  eq(entries.length, 1, 'l\'article reste listé');
+  eq(entries[0].category, 'sans-categorie', 'bucket de repli');
+  eq(result.status, 'PUBLISHED', 'statut');
+  ok(warningCodesOf(result).indexOf('V3') !== -1, 'avertissement V3');
+  includes(writtenHtml(s, ARTICLE_PATH), 'data-category="sans-categorie"', 'data-category');
+});
+
+test('R8 : un articles.json remis à zéro est rattrapé à la republication', () => {
+  // État réel après l'incident : `articles.json` sans l'article publié.
+  const a = tvaArticle();
+  const s1 = setup({
+    articles: [a],
+    indexes: { includeArticle: false },
+    activeCell: { row: 2 },
+    routes: publishRoutes(ARTICLE_PATH)
+  });
+  eq(jsonArticles(s1.fetch).length, 0, 'index vide au départ');
+  const first = call(s1.ctx, 'publishSelectedArticle');
+  ok(first.ok, 'première publication : ' + first.code);
+  eq(jsonArticles(s1.fetch).length, 1, 'index rattrapé');
+
+  // Même ligne, contexte NEUF, articles.json REMIS À ZÉRO par une main
+  // extérieure : la réconciliation doit réinsérer l'entrée.
+  const emptied = JSON.stringify({ version: 1, generatedAt: '2026-01-01T00:00:00.000Z', articles: [] }, null, 2) + '\n';
+  const s2 = setup({
+    articles: [a],
+    indexFiles: repoSnapshot(s1.fetch)
+      .filter((f) => f.path !== ARTICLES_JSON)
+      .concat([
+        { path: ARTICLES_JSON, content: emptied },
+        { path: ARTICLE_PATH, content: publishedHtml(s1), sha: 'sha-art' }
+      ]),
+    activeCell: { row: 2 },
+    routes: [
+      templateRoute(),
+      { method: 'get', path: ARTICLE_ROUTE, body: contentsResponse(ARTICLE_PATH, publishedHtml(s1), 'sha-art'), times: Infinity }
+    ]
+  });
+
+  const again = call(s2.ctx, 'publishSelectedArticle');
+  ok(again.ok, 'republication : ' + again.code + ' ' + again.message);
+  eq(again.indexed, true, 'index réconcilié');
+  eq(jsonArticles(s2.fetch).length, 1, 'l\'article est de retour dans articles.json');
+  eq(jsonArticles(s2.fetch)[0].slug, a.SLUG, 'le bon article');
+});
+
+test('R9 : verifyArticleIndexEntry détecte une entrée absente, datée ou catégorisée autrement', () => {
+  const { ctx } = createContext({});
+  const json = JSON.stringify({
+    version: 1,
+    generatedAt: '2026-10-04T00:00:00.000Z',
+    articles: [
+      { lang: 'fr', slug: 'autre', url: '/blog/fr/autre.html', title: 'Autre', category: 'menu-digital', date: '2026-01-05' },
+      { lang: 'fr', slug: 'article-de-test', url: '/blog/fr/article-de-test.html', title: 'Test', category: 'guides-prix', date: '2026-07-14' }
+    ]
+  });
+
+  const good = call(ctx, 'verifyArticleIndexEntry', json, {
+    lang: 'fr', slug: 'article-de-test', date: '2026-07-14', category: 'guides-prix'
+  });
+  ok(good.ok, 'entrée conforme : ' + good.reason);
+  eq(good.entry.slug, 'article-de-test', 'entrée retrouvée');
+
+  const absent = call(ctx, 'verifyArticleIndexEntry', json, { lang: 'fr', slug: 'fantome' });
+  notOk(absent.ok, 'entrée absente détectée');
+  includes(absent.reason, 'fantome', 'la raison nomme le slug');
+
+  // Mauvaise langue : une entrée en anglais ne vaut pas validation d'une page fr.
+  notOk(call(ctx, 'verifyArticleIndexEntry', json, { lang: 'es', slug: 'article-de-test' }).ok,
+    'la langue demandée est respectée');
+  notOk(call(ctx, 'verifyArticleIndexEntry', json,
+    { lang: 'fr', slug: 'article-de-test', date: '2026-07-15' }).ok, 'date différente refusée');
+  notOk(call(ctx, 'verifyArticleIndexEntry', json,
+    { lang: 'fr', slug: 'article-de-test', category: 'menu-digital' }).ok, 'catégorie différente refusée');
+  notOk(call(ctx, 'verifyArticleIndexEntry', 'pas du json', { lang: 'fr', slug: 'x' }).ok, 'JSON illisible refusé');
+  notOk(call(ctx, 'verifyArticleIndexEntry', '{"version":1}', { lang: 'fr', slug: 'x' }).ok,
+    'liste absente refusée');
 });
 
 /* -------------------------------------------------------------------------- */

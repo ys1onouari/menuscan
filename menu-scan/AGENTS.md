@@ -75,7 +75,8 @@ public/blog/
 ```
 
 - Languages: `fr`, `en`, `es`, `ar`. An article lives at `blog/{lang}/{slug}.html`; `lang` and `dir` are static in the generated page. The hub filters `article.lang === activeLanguage` with **no fallback**.
-- Categories (slug in the Sheet, label translated per language): `menu-digital`, `qr-code`, `restaurants-cafes`, `hotels-riads`, `commerces`, `guides-prix`.
+- **Reconciliation invariant**: after a successful publication the file article, then `articles.json`, then `sitemap.xml` are written in that order, and the written `articles.json` is re-read and checked for the article (`verifyArticleIndexEntry`). An article that cannot be indexed (legacy unreadable `PUBLISHED_AT`, …) is isolated, not allowed to empty the index, and reported as a warning (`IX4w`) or a failure (`IX4v`/`IX4`) — never a silent success. Dates are normalised by `normalizePublishedAt()` (Utils.gs): `Date`, ISO, French `jj/mm/aaaa` and JS date strings all yield `YYYY-MM-DD` in `TIMEZONE`; an unreadable value yields `''` and is never invented.
+- Categories: `menu-digital`, `qr-code`, `restaurants-cafes`, `hotels-riads`, `commerces`, `guides-prix`. The list is **not closed** — a new category typed in the Sheet publishes without a redeploy (V3 is a warning), is slugified by `normalizeCategorySlug()` (Config.gs) with its letters of any script preserved, is labelled raw in the hub when it has no translation, and gets its own filter. Empty → `sans-categorie`.
 - `template-article.html` is language-neutral: every user-facing string is a `{{PLACEHOLDER}}`. The 16 placeholders required by `REQUIRED_PLACEHOLDERS` (Validator.gs) must all be present. `{{TITLE}}` must appear exactly 7 times and `{{DESCRIPTION}}` exactly 5, on the anchors of `TITLE_SITE_RULES` / `DESCRIPTION_SITE_RULES`.
 - The template's HTML comment is **kept** in the published page: never write a `{{TOKEN}}`, a `<span>` or any anchor tag inside it, or the renderer's anchor resolution breaks.
 - The TOC container must be exactly `<nav class="toc"><ol>` (Renderer.gs and `renderer.test.cjs` match it by regex).
@@ -93,6 +94,7 @@ node apps-script/tests/renderer.test.cjs
 node apps-script/tests/publisher.test.cjs
 node apps-script/tests/delete.test.cjs
 node apps-script/tests/scheduler.test.cjs
+node apps-script/tests/hub.test.cjs
 ```
 
 ## Module Pattern

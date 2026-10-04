@@ -1197,8 +1197,10 @@ test('aucun article READY : rapport NO_READY', () => {
 });
 
 test('un échec ne fait pas TSAILLER le lot : le reste est publié (PARTIAL)', () => {
+  // L'article cassé est cassé par un V19 (READING_TIME vide) : une catégorie
+  // inconnue ne l'est PLUS, les catégories étant dynamiques.
   const articles = [
-    makeReady('A-1', 'article-casse', { CATEGORY: 'categorie-inconnue' }),
+    makeReady('A-1', 'article-casse', { READING_TIME: '' }),
     makeReady('A-2', 'article-valide')
   ];
   const { ctx } = publishCtx({
