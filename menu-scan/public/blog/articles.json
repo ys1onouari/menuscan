@@ -1,7 +1,22 @@
 {
   "version": 1,
-  "generatedAt": "2026-10-04T13:25:51.975Z",
+  "generatedAt": "2026-10-04T13:27:07.819Z",
   "articles": [
+    {
+      "lang": "fr",
+      "slug": "qr-code-services-vitrine",
+      "url": "/blog/fr/qr-code-services-vitrine.html",
+      "title": "Comment afficher ses services avec un QR Code en vitrine ?",
+      "excerpt": "Un QR Code en vitrine permet de présenter vos prestations et leurs prix sur smartphone, tout en simplifiant les mises à jour.",
+      "category": "qr-code",
+      "date": "2026-10-03",
+      "readingTime": 9,
+      "image": "/blog/images/How-to-Build-a-Clear-Menu-for-a-Busy-Moroccan-Cafe.jpg",
+      "imageAlt": "QR Code en vitrine d’un institut de beauté pour consulter les prestations et les prix sur smartphone",
+      "imageWidth": 1200,
+      "imageHeight": 600,
+      "translationGroup": "qr-code-services-vitrine"
+    },
     {
       "lang": "fr",
       "slug": "menu-digital-pressing",
@@ -9,7 +24,7 @@
       "title": "Quels avantages d’un menu digital pour un pressing ?",
       "excerpt": "Découvrez comment un menu digital pressing présente clairement les prestations et tarifs sur smartphone et simplifie les mises à jour.",
       "category": "menu-digital",
-      "date": "2026-10-03",
+      "date": "2026-10-02",
       "readingTime": 9,
       "image": "/blog/images/How-Many-Languages-Should-a-Moroccan-Riad-Menu-Offer.jpg",
       "imageAlt": "Menu digital pressing affichant des prestations et tarifs sur smartphone avec QR Code",
